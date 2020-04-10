@@ -6,10 +6,13 @@ from sqlalchemy import create_engine, func
 import datetime as dt 
 import numpy as np
 import pandas as pd
+from sqlalchemy.pool import SingletonThreadPool
 
 app = Flask(__name__)
 
-engine = create_engine("sqlite:///opioidsDB.db")
+engine = create_engine('sqlite:///opioidsDB.db',
+                        echo=True,
+                        connect_args={"check_same_thread": False})
 
 Base = automap_base()
 Base.prepare(engine, reflect=True)
@@ -20,11 +23,11 @@ prescriptions = Base.classes.prescriptions
 
 
 
+session = Session(engine)
 
-
-@app.route("/")
+@app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template('index.html')
 
 
 
@@ -52,7 +55,7 @@ def prescriptionRoute():
 
     return jsonify(presList)
 
-
+session.close()
 
 if __name__ == '__main__':
     app.run(debug=True)
