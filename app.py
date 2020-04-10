@@ -18,34 +18,36 @@ Base.prepare(engine, reflect=True)
 deaths = Base.classes.deaths
 prescriptions = Base.classes.prescriptions
 
-session = Session(engine)
+
+
 
 
 @app.route("/")
 def index():
-    return(f"Route Options <br/><br/>"
-            f"/api/v1.0/deathTest <br/>"
-            f"/api/v1.0/prescriptionTest <br/>")
+    return render_template("index.html")
 
 
 
 @app.route('/api/v1.0/deathTest')
 def deathRoute():
+    session = Session(engine)
     deathByState = session.query(deaths.Location, deaths.Data)
+    session.close()
 
     deathList = []
     for row in deathByState:
         deathList.append({"State ": row[0], "Deaths per 100,000 ": row [1]})
-
+    
     return jsonify(deathList)
 
 @app.route('/api/v1.0/prescriptionTest')
 def prescriptionRoute():
-    
+    session = Session(engine)
     prescriptionsByState = session.query(prescriptions.Location, prescriptions.Data)
+    session.close()
 
     presList = []
-    for row in presList:
+    for row in prescriptionsByState:
         presList.append({"State ": row[0], "Prescriptions per 100,000 ": row[1]})
 
     return jsonify(presList)
