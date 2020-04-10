@@ -12,4 +12,6 @@ d3.json(link).then(function(data){
     ];
 
     Plotly.newPlot('bar',barData);
+
+    console.log("DATA:", d);
 });

@@ -34,12 +34,16 @@ def index():
 @app.route('/api/v1.0/deathTest')
 def deathRoute():
     session = Session(engine)
-    deathByState = session.query(deaths.Location, deaths.Data)
+    deathByState = session.query(deaths.Location, deaths.Data, deaths.Fips, deaths.Drug_Type, deaths.TimeFrame)
     session.close()
 
     deathList = []
     for row in deathByState:
-        deathList.append({"State ": row[0], "Deaths per 100,000 ": row [1]})
+        deathList.append({"State ": row[0], 
+                          "Deaths per 100,000 ": row [1],
+                          "Fips": row[2],
+                          "Drug Type": row[3],
+                          "Year": row[4]})
     
     return jsonify(deathList)
 
