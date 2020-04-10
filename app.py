@@ -23,10 +23,7 @@ session = Session(engine)
 
 @app.route("/")
 def index():
-    return(f"Route Options <br/><br/>"
-            f"/api/v1.0/deathTest <br/>"
-            f"/api/v1.0/prescriptionTest <br/>")
-
+    return render_template("index.html")
 
 
 @app.route('/api/v1.0/deathTest')
