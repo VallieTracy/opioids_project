@@ -29,8 +29,6 @@ session = Session(engine)
 def index():
     return render_template('index.html')
 
-
-
 @app.route('/api/v1.0/deathTest')
 def deathRoute():
     session = Session(engine)
@@ -50,12 +48,16 @@ def deathRoute():
 @app.route('/api/v1.0/prescriptionTest')
 def prescriptionRoute():
     session = Session(engine)
-    prescriptionsByState = session.query(prescriptions.Location, prescriptions.Data)
+    prescriptionsByState = session.query(prescriptions.Location, prescriptions.Data, prescriptions.Fips, prescriptions.Oxy_Hydro, prescriptions.TimeFrame)
     session.close()
 
     presList = []
     for row in prescriptionsByState:
-        presList.append({"State ": row[0], "Prescriptions per 100,000 ": row[1]})
+        presList.append({"State ": row[0], 
+                         "Prescriptions per 100,000 ": row[1],
+                         "Fips": row[2],
+                         "Oxycodone / Hydrocodone:": row[3],
+                         "Year": row[4]})
 
     return jsonify(presList)
 
