@@ -23,11 +23,7 @@ prescriptions = Base.classes.prescriptions
 
 
 
-<<<<<<< HEAD
-# session = Session(engine)
-=======
 session = Session(engine)
->>>>>>> d1c52103dac259aacb0c4181618d8f89dc0b4e3f
 
 @app.route('/')
 def index():
@@ -51,13 +47,8 @@ def deathRoute():
 
     deathList = []
     for row in deathByState:
-<<<<<<< HEAD
-        deathList.append({"State": row[0], 
-                          "Deaths per 100,000": row [1],
-=======
         deathList.append({"State ": row[0], 
                           "Deaths per 100,000 ": row [1],
->>>>>>> d1c52103dac259aacb0c4181618d8f89dc0b4e3f
                           "Fips": row[2],
                           "Drug Type": row[3],
                           "Year": row[4]})
@@ -72,24 +63,15 @@ def prescriptionRoute():
 
     presList = []
     for row in prescriptionsByState:
-<<<<<<< HEAD
-        presList.append({"State": row[0], 
-                         "Prescriptions per 100,000": row[1],
-=======
         presList.append({"State ": row[0], 
                          "Prescriptions per 100,000 ": row[1],
->>>>>>> d1c52103dac259aacb0c4181618d8f89dc0b4e3f
                          "Fips": row[2],
                          "Oxycodone / Hydrocodone:": row[3],
                          "Year": row[4]})
 
     return jsonify(presList)
 
-<<<<<<< HEAD
-# session.close()
-=======
 session.close()
->>>>>>> d1c52103dac259aacb0c4181618d8f89dc0b4e3f
 
 if __name__ == '__main__':
     app.run(debug=True)
