@@ -29,6 +29,16 @@ session = Session(engine)
 def index():
     return render_template('index.html')
 
+# Route to our about page
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+# Route to a dataset page
+@app.route('/deathsData')
+def deathsData():
+    return render_template('deathsData.html')
+
 @app.route('/api/v1.0/deathTest')
 def deathRoute():
     session = Session(engine)
