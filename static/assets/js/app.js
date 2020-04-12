@@ -15,74 +15,95 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: API_KEY
 }).addTo(mymap);
 
+var deathsUrl = "http://127.0.0.1:5000/api/v1.0/deathTest";
+var salesUrl = "http://127.0.0.1:5000/api/v1.0/prescriptionTest";
 
-var link = "http://127.0.0.1:5000/api/v1.0/deathTest";
+d3.json(deathsUrl).then(function(deaths){
+  d3.json(salesUrl).then(function(sales) {
+    console.log("deaths:", deaths);
+    console.log(deaths[700]["Fips"]);
+    console.log(deaths[700]["Year"]);
+    console.log(deaths[700]["Drug Type"]);
+    console.log(deaths[700]["State"]);
+    console.log("0", deaths[0]["Deaths per 100,000"]);
+    console.log("2", deaths[2]["Deaths per 100,000"]);
 
-
-// d3.json(link).then(function(data){
+    // for (var i = 0; i < 15; i++) {
+    //   if (deaths[i]["Deaths per 100,000"] == "N/A") {
+    //     deaths[i]["Deaths per 100,000"] =+ deaths[i]["Deaths per 100,000"]
+    //   }
+    //   // else {
+    //   //   parseInt(deaths[i]["Deaths per 100,000"]);
+    //   // }
+    //   console.log(deaths[i]["Deaths per 100,000"]);
+    // }
   
+  }); // end of d3.json sales
+}); // end of d3.json deaths
 
 
-// });
 
 // Vallie's radial chart
 //Chart code 
-am4core.ready(function() {
+var chart = am4core.create("chartdiv", am4charts.RadarChart);
 
-  // Themes begin
-  am4core.useTheme(am4themes_animated);
-  // Themes end
-  
-  /* Create chart instance */
-  var chart = am4core.create("chartdiv", am4charts.RadarChart);
-  
-  var data = [];
-  var value1 = 500;
-  var value2 = 600;
-  
-  for(var i = 0; i < 12; i++){
-    let date = new Date();
-    date.setMonth(i, 1);
-    value1 -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
-    value2 -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
-    data.push({date:date, value1:value1, value2:value2})
-  }
-  
-  chart.data = data;
-  
-  /* Create axes */
-  var categoryAxis = chart.xAxes.push(new am4charts.DateAxis());
-  
-  var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-  valueAxis.extraMin = 0.2;
-  valueAxis.extraMax = 0.2;
-  valueAxis.tooltip.disabled = true;
-  
-  /* Create and configure series */
-  var series1 = chart.series.push(new am4charts.RadarSeries());
-  series1.dataFields.valueY = "value1";
-  series1.dataFields.dateX = "date";
-  series1.strokeWidth = 3;
-  series1.tooltipText = "{valueY}";
-  series1.name = "Series 2";
-  series1.bullets.create(am4charts.CircleBullet);
-  series1.dataItems.template.locations.dateX = 0.5;
-  
-  var series2 = chart.series.push(new am4charts.RadarSeries());
-  series2.dataFields.valueY = "value2";
-  series2.dataFields.dateX = "date";
-  series2.strokeWidth = 3;
-  series2.tooltipText = "{valueY}";
-  series2.name = "Series 2";
-  series2.bullets.create(am4charts.CircleBullet);
-  series2.dataItems.template.locations.dateX = 0.5;
-  
-  chart.scrollbarX = new am4core.Scrollbar();
-  chart.scrollbarY = new am4core.Scrollbar();
-  
-  chart.cursor = new am4charts.RadarCursor();
-  
-  chart.legend = new am4charts.Legend();
-   
-  
-  });
+/* Add data */
+chart.data = [{
+  "country": "Lithuania",
+  "litres": 501,
+  "units": 250
+}, {
+  "country": "Czech Republic",
+  "litres": 301,
+  "units": 222
+}, {
+  "country": "Ireland",
+  "litres": 266,
+  "units": 179
+}, {
+  "country": "Germany",
+  "litres": 165,
+  "units": 298
+}, {
+  "country": "Australia",
+  "litres": 139,
+  "units": 299
+}, {
+  "country": "Austria",
+  "litres": 336,
+  "units": 185
+}, {
+  "country": "UK",
+  "litres": 290,
+  "units": 150
+}, {
+  "country": "Belgium",
+  "litres": 325,
+  "units": 382
+}, {
+  "country": "The Netherlands",
+  "litres": 40,
+  "units": 172
+}];
+
+/* Create axes */
+var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "country";
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+/* Create and configure series */
+var series = chart.series.push(new am4charts.RadarSeries());
+series.dataFields.valueY = "litres";
+series.dataFields.categoryX = "country";
+series.name = "Sales";
+series.strokeWidth = 3;
+series.zIndex = 2;
+
+var series2 = chart.series.push(new am4charts.RadarColumnSeries());
+series2.dataFields.valueY = "units";
+series2.dataFields.categoryX = "country";
+series2.name = "Units";
+series2.strokeWidth = 0;
+series2.columns.template.fill = am4core.color("#CDA2AB");
+series2.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
