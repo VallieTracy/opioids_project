@@ -1,3 +1,9 @@
+var states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Dist. of Columbia", "Florida",
+  "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+  "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina",
+  "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
+  "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+
 // Creating map object
 var mymap = L.map('map')
   .setView([38.27, -95.86], 4);
@@ -14,8 +20,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 
 
-var deathURL = "http://127.0.0.1:5000/api/v1.0/deathTest";
-var PresURL = "http://127.0.0.1:5000/api/v1.0/prescriptionTest";
+var deathsUrl = "http://127.0.0.1:5000/api/v1.0/deathTest";
+var salesUrl = "http://127.0.0.1:5000/api/v1.0/prescriptionTest";
 
 // coloring for choropleth.
 function choroColor(d){
@@ -50,42 +56,52 @@ function choroColor(d){
 
 
 
-d3.json(deathURL).then(function(data){
+d3.json(deathsUrl).then(function(data){
   //console.log(data)
 
   //convert numerical values from their current string form
-  for ( var q=0; q<data.length; q++){
-    if (data[q]["Deaths per 100,000"] !== "N/A"){
-      data[q]["Deaths per 100,000"] =+ data[q]["Deaths per 100,000"]
-    }
-  }
+  // for ( var q=0; q<data.length; q++){
+  //   if (data[q]["Deaths per 100,000"] !== "N/A"){
+  //     data[q]["Deaths per 100,000"] =+ data[q]["Deaths per 100,000"]
+  //   }
+  // }
 
-  var opioidsTest = [];
-  var deathsTest = [];
-  for (var i = 0; i<data.length; i++){
-    
-    
-    var state;
 
-    if ((data[i]["Drug Type"]==="All opioids") && (data[i]["Year"]=="2018")){
+  for (var i = 0; i<states.length; i++){
+    var state = states[i];
+    var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2108"];
+      for (var j = 0; j<years.length; j++){
+        var year = years[j];
+        // console.log(data[state][year]["info"]);
+        if(data[state][year]["info"]["Deaths per 100,000"] != "N/A"){
+          data[state][year]["info"]["Deaths per 100,000"] =+ data[state][year]["info"]["Deaths per 100,000"]
+        }
+      }
+    };
+  
 
-      deaths = data[i]["Deaths per 100,000"];
-      state = data[i]["State"];
-      deathsTest.push(deaths);
-      opioidsTest.push({"Deaths": deaths, "State": state});
-    }
-    
-    
-  };
 
-  console.log(opioidsTest);
-  console.log(deathsTest);
+  // var opioidsTest = [];
+  // for (var i = 0; i<data.length; i++){
+    
+  //   var deaths;
+  //   var state;
+
+  //   if ((data[i]["Drug Type"]==="All opioids") && (data[i]["Year"]==="2018")){
+  //     //console.log(data[i]["Deaths per 100,000"]);
+  //     deaths = data[i]["Deaths per 100,000"];
+  //     state = data[i]["State"];
+
+  //     opioidsTest.push({"Deaths": deaths, "State": state});
+  //   }
+  // };
 
 
   //add color to states
   function style(feature) {
+    //console.log(feature.opioidsTest);
     return {
-        fillColor: choroColor(opioidsTest),
+        fillColor: choroColor(feature.opioidsTest),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -137,3 +153,31 @@ d3.json(deathURL).then(function(data){
 
 });
 
+
+//function for when the user selects a state
+function optionChanged(newState){
+  //functions for drawing graphs here
+}
+
+
+//function for initial landing page
+function initDashboard(){
+  var selector = d3.select("#selDataset");
+
+  d3.json(deathsUrl).then((data)=>{
+   //console.log(data);
+
+    states.forEach((stateSelect)=>{
+      selector.append("option")
+        .text(stateSelect)
+        .property("value", stateSelect)
+    });
+
+    var stateSelect = states[0];
+  });
+
+  //call functions here to draw the initial graphs for the landing page.
+
+}
+
+initDashboard();
