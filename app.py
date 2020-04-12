@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from sqlalchemy.pool import SingletonThreadPool
 
+
 app = Flask(__name__)
 
 engine = create_engine('sqlite:///opioidsDB.db',
@@ -45,16 +46,57 @@ def deathRoute():
     deathByState = session.query(deaths.Location, deaths.Data, deaths.Fips, deaths.Drug_Type, deaths.TimeFrame)
     session.close()
 
-    deathList = []
-    for row in deathByState:
+    # deathList = []
+    # for row in deathByState:
 
-        deathList.append({"State ": row[0], 
-                          "Deaths per 100,000 ": row [1],
-                          "Fips": row[2],
-                          "Drug Type": row[3],
-                          "Year": row[4]})
+    #     deathList.append({"State ": row[0], 
+    #                       "Deaths per 100,000 ": row [1],
+    #                       "Fips": row[2],
+    #                       "Drug Type": row[3],
+    #                       "Year": row[4]})
     
-    return jsonify(deathList)
+    # return jsonify(deathList)
+
+
+    # deathList={}
+    # for item in deathByState:
+    #     state = item[0]
+    #     deaths_per_100000 = item[1]
+    #     fips = item[2]
+    #     drug_type = item[3]
+    #     year = item[4]
+    #     found = False
+    #     for key in deathList:
+    #         if state == key:
+    #             deathList[key][year] = {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}
+    #             found = True
+    #     if not found:
+    #         deathList[state] = {year: {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}}
+    # return jsonify(deathList)
+
+    drugTypeList= ["Cocaine", "Heroin", "Natural and semi-synthetic opioids", "Psychostimulants", "Synthetic opioids", "All drugs", "All opioids"]
+    deathList={}
+    for item in deathByState:
+        state = item[0]
+        deaths_per_100000 = item[1]
+        if deaths_per_100000 != "N/A":
+            deaths_per_100000 = float(deaths_per_100000)
+        fips = item[2]
+        drug_type = item[3]
+        year = item[4]
+        found = False
+        for key in deathList:
+            if state == key:
+                for drug in drugTypeList:
+                    test = {drug: deaths_per_100000}
+                    deathList[key][year] = {"deaths": test}
+                    found = True
+        if not found:
+            for drug in drugTypeList:
+                test = {drug: deaths_per_100000}
+            deathList[state] = {year: {"deaths": test}}
+        
+    return deathList
 
 @app.route('/api/v1.0/prescriptionTest')
 def prescriptionRoute():

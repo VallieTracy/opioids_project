@@ -16,19 +16,39 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(mymap);
 
 
+// var link = "http://127.0.0.1:5000/api/v1.0/deathTest";
 var link = "http://127.0.0.1:5000/api/v1.0/deathTest";
 
+// d3.json(link).then(function(data){
+//   var d = data;
+
+//   var barData = [
+//       {
+//           x: data["Deaths per 100,000"]*100,
+//           y: data["State"]
+//       }
+//   ];
+
 d3.json(link).then(function(data){
-  var d = data;
+    var d = data;
 
-  var barData = [
-      {
-          x: data["Deaths per 100,000"]*100,
-          y: data["State"]
+    var opioidsTest = [];
+    for (var i = 0; i<data.length; i++){
+      var deaths;
+      var state;
+      if ((data[i]["Drug Type"]==="All opioids") && (data[i]["Year"]=="2000")){
+        deaths = data[i]["Deaths per 100,000"];
+        state = data[i]["State"];
+        opioidsTest.push({"Deaths": deaths, "State": state})
+     
       }
-  ];
+      
+    };
+    console.log(opioidsTest);
+  
+  Plotly.newPlot('line',opioidsTest);
 
-  Plotly.newPlot('bar',barData);
+  // Plotly.newPlot('line', barData);
 
 
 });
