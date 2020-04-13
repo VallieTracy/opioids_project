@@ -20,23 +20,27 @@ var salesUrl = "http://127.0.0.1:5000/api/v1.0/prescriptionTest";
 
 d3.json(deathsUrl).then(function(deaths){
   d3.json(salesUrl).then(function(sales) {
-    console.log("deaths:", deaths);
-    console.log(deaths[700]["Fips"]);
-    console.log(deaths[700]["Year"]);
-    console.log(deaths[700]["Drug Type"]);
-    console.log(deaths[700]["State"]);
-    console.log("0", deaths[0]["Deaths per 100,000"]);
-    console.log("2", deaths[2]["Deaths per 100,000"]);
+    
+    // var states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Dist. of Columbia", "Florida",
+    //     "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+    //     "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina",
+    //     "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
+    //     "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+    var states = ["Alabama", "Alaska", "Arizona", "Arkansas"];
 
-    // for (var i = 0; i < 15; i++) {
-    //   if (deaths[i]["Deaths per 100,000"] == "N/A") {
-    //     deaths[i]["Deaths per 100,000"] =+ deaths[i]["Deaths per 100,000"]
-    //   }
-    //   // else {
-    //   //   parseInt(deaths[i]["Deaths per 100,000"]);
-    //   // }
-    //   console.log(deaths[i]["Deaths per 100,000"]);
-    // }
+    console.log("DEATHS:", deaths);
+    console.log("states.length:", states.length);
+
+    for ( var i = 0; i<states.length; i++){
+      var state = states[i];
+      console.log(state);
+      conso
+    }
+    
+   
+    
+
+    
   
   }); // end of d3.json sales
 }); // end of d3.json deaths

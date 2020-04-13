@@ -34,10 +34,15 @@ def index():
 def about():
     return render_template('about.html')
 
-# Route to a dataset page
+# Route to death dataset page
 @app.route('/deathsData')
 def deathsData():
     return render_template('deathsData.html')
+
+# Route to sales dataset page
+@app.route('/salesData')
+def salesData():
+    return render_template('salesData.html')
 
 @app.route('/api/v1.0/deathTest')
 def deathRoute():
@@ -45,21 +50,37 @@ def deathRoute():
     deathByState = session.query(deaths.Location, deaths.Data, deaths.Fips, deaths.Drug_Type, deaths.TimeFrame)
     session.close()
 
-    deathList={}
-    for item in deathByState:
-        state = item[0]
-        deaths_per_100000 = item[1]
-        fips = item[2]
-        drug_type = item[3]
-        year = item[4]
-        found = False
-        for key in deathList:
-            if state == key:
-                deathList[key][year] = {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}
-                found = True
-        if not found:
-            deathList[state] = {year: {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}}
-    return deathList
+    deathList=[]
+    for row in deathByState:
+        deathList.append({"State": row[0], 
+                         "Prescriptions per 100,000": row[1],
+                         "Fips": row[2],
+                         "Drug Type": row[3],
+                         "Year": row[4]})
+
+    return jsonify(deathList) 
+
+        
+    #return jsonify(deathList)   
+
+    # deathList={}
+    # for item in deathByState:
+    #     state = item[0]
+    #     deaths_per_100000 = item[1]
+    #     if deaths_per_100000 != "N/A":
+    #         deaths_per_100000 = float(deaths_per_100000)
+    #     fips = item[2]
+    #     drug_type = item[3]
+    #     year = item[4]
+    #     found = False
+    #     for key in deathList:
+    #         if state == key:
+    #             deathList[key][year] = {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}
+    #             found = True
+    #     if not found:
+    #         deathList[state] = {year: {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}}
+    
+    # return deathList
 
 @app.route('/api/v1.0/prescriptionTest')
 def prescriptionRoute():
