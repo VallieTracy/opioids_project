@@ -45,35 +45,47 @@ def deathRoute():
     deathByState = session.query(deaths.Location, deaths.Data, deaths.Fips, deaths.Drug_Type, deaths.TimeFrame).all()
     session.close()
 
-    # deathList = []
+    deathList = []
+    for row in deathByState:
+
+        deathList.append({"State": row[0], 
+                          "Deaths per 100,000": row [1],
+                          "Fips": row[2],
+                          "Drug Type": row[3],
+                          "Year": row[4]})
+    print (deathList)
+    return jsonify(deathList)
+
+    # drugTypeList= ["Cocaine", "Heroin", "Natural and semi-synthetic opioids", "Psychostimulants", "Synthetic opioids", "All drugs", "All opioids"]
+    # deathList={}
     
-    # for row in deathByState:
-    #     deathList.append({"State": row[0], 
-    #                       "Deaths per 100,000": row [1],
-    #                       "Fips": row[2],
-    #                       "Drug Type": row[3],
-    #                       "Year": row[4]})
+    # for item in deathByState:
+    #     state = item[0]
+    #     deaths_per_100000 = item[1]
+    #     if deaths_per_100000 != "N/A":
+    #         deaths_per_100000 = float(deaths_per_100000)
+    #     fips = item[2]
+    #     drug_type = item[3]
+    #     year = item[4]
 
-    # return jsonify(deathList)
+    #     found = False
+    #     for key in deathList:
+    #         if state == key:
+    #             deathList[key][year] = {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}
+    #             found = True
+    #         if not found:
+    #             deathList[state] = {year: {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}}
 
-    deathList={}
-    for item in deathByState:
-        state = item[0]
-        deaths_per_100000 = item[1]
-        fips = item[2]
-        drug_type = item[3]
-        year = item[4]
+        # for state in deathList:
+        #     for drug in drugTypeList:
+        #         if (state == state) and (year == year):
+        #             if drug == drug_type:
+        #                 deathList[state][year][info] = {drug_type: deaths_per_10000}
 
-        found = False
-        for key in deathList:
-            if state == key:
-                deathList[key][year] = {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}
-                found = True
-        if not found:
-            deathList[state] = {year: {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}}
 
-    
-    return deathList
+
+    return jsonify(deathList)
+
 
 @app.route('/api/v1.0/prescriptionTest')
 def prescriptionRoute():

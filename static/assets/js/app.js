@@ -3,6 +3,7 @@ var states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorad
   "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina",
   "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
   "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2108"];
 
 // Creating map object
 var mymap = L.map('map')
@@ -57,44 +58,34 @@ function choroColor(d){
 
 
 d3.json(deathsUrl).then(function(data){
-  //console.log(data)
+  console.log(data)
 
-  //convert numerical values from their current string form
-  // for ( var q=0; q<data.length; q++){
-  //   if (data[q]["Deaths per 100,000"] !== "N/A"){
-  //     data[q]["Deaths per 100,000"] =+ data[q]["Deaths per 100,000"]
+  var opioidsTest = [];
+  for (var i = 0; i<data.length; i++){
+    
+    var deaths;
+    var state;
+
+    if ((data[i]["Drug Type"]==="All opioids") && (data[i]["Year"]==="2018")){
+      //console.log(data[i]["Deaths per 100,000"]);
+      deaths = data[i]["Deaths per 100,000"];
+      state = data[i]["State"];
+
+      opioidsTest.push({"Deaths": deaths, "State": state});
+    }
+  };
+
+
+  // opioidsTest = []
+  // for ( var i = 0; i<states.length; i++){
+  //   var state = states[i];
+  //   var year = "2018";
+  //   console.log(data[state][year]["info"]);
+  //   if (data[state][year]["info"]["Drug Type"]==="All opioids"){
+  //     opioidsTest.push({"State": state, "Deaths": data[state][year]["info"]["Deaths per 100,000"]});
   //   }
   // }
-
-
-  for (var i = 0; i<states.length; i++){
-    var state = states[i];
-    var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2108"];
-      for (var j = 0; j<years.length; j++){
-        var year = years[j];
-        // console.log(data[state][year]["info"]);
-        if(data[state][year]["info"]["Deaths per 100,000"] != "N/A"){
-          data[state][year]["info"]["Deaths per 100,000"] =+ data[state][year]["info"]["Deaths per 100,000"]
-        }
-      }
-    };
-  
-
-
-  // var opioidsTest = [];
-  // for (var i = 0; i<data.length; i++){
-    
-  //   var deaths;
-  //   var state;
-
-  //   if ((data[i]["Drug Type"]==="All opioids") && (data[i]["Year"]==="2018")){
-  //     //console.log(data[i]["Deaths per 100,000"]);
-  //     deaths = data[i]["Deaths per 100,000"];
-  //     state = data[i]["State"];
-
-  //     opioidsTest.push({"Deaths": deaths, "State": state});
-  //   }
-  // };
+  //console.log(opioidsTest);
 
 
   //add color to states
