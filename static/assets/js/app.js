@@ -18,24 +18,38 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 var deathsUrl = "http://127.0.0.1:5000/api/v1.0/deathTest";
 var salesUrl = "http://127.0.0.1:5000/api/v1.0/prescriptionTest";
 
+var deathsDB, salesDB;
+
 d3.json(deathsUrl).then(function(deaths){
   d3.json(salesUrl).then(function(sales) {
-    
-    // var states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Dist. of Columbia", "Florida",
-    //     "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
-    //     "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina",
-    //     "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
-    //     "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
-    var states = ["Alabama", "Alaska", "Arizona", "Arkansas"];
 
+    deathsDB = deaths;
+    salesDB = sales;
+
+    var sel = d3.select('#stateSelect');
+    sel.html('');
+
+    var states = [];
+
+    sales.forEach(obj => {
+      if(!states.includes(obj.State)) {
+        states.push(obj.State);
+      }
+  });
+
+  states.forEach(state => {
+    sel
+      .append('option')
+      .text(state);
+  });
+  
     console.log("DEATHS:", deaths);
-    console.log("states.length:", states.length);
+    console.log("SALES:", sales);
+    console.log("sales[0]:", sales[0]["Prescriptions per 100,000"]);
+    var bamaTotal = parseFloat(sales[0]["Prescriptions per 100,000"]) + parseFloat(sales[1]["Prescriptions per 100,000"]);
+    console.log(bamaTotal);
 
-    for ( var i = 0; i<states.length; i++){
-      var state = states[i];
-      console.log(state);
-      conso
-    }
+
     
    
     
@@ -49,6 +63,7 @@ d3.json(deathsUrl).then(function(deaths){
 
 // Vallie's radial chart
 //Chart code 
+/* Create chart instance */
 var chart = am4core.create("chartdiv", am4charts.RadarChart);
 
 /* Add data */
