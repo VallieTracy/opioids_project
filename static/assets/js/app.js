@@ -63,56 +63,104 @@ d3.json(deathsUrl).then(function(deaths){
 }); // end of d3.json deaths
 
 
-// var mymap = L.map('map')
-//   .setView([38.27, -100.86], 4);
+// Liz's stacked Area Chart
+//Chart code 
+/* Create chart instance */
+var chart = am4core.create("chartdiv", am4charts.RadarChart);
 
-// // map.invalidateSize(true);
-
-// // Adding tile layer
-// L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-//     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-//     maxZoom: 18,
-//     id: 'mapbox/streets-v11',
-//     tileSize: 512,
-//     zoomOffset: -1,
-//     accessToken: API_KEY
-// }).addTo(mymap);
-
-
-// // var link = "http://127.0.0.1:5000/api/v1.0/deathTest";
-// var link = "http://127.0.0.1:5000/api/v1.0/deathTest";
-
-// // d3.json(link).then(function(data){
-// //   var d = data;
-
-// //   var barData = [
-// //       {
-// //           x: data["Deaths per 100,000"]*100,
-// //           y: data["State"]
-// //       }
-// //   ];
-
-// d3.json(link).then(function(data){
-//     var d = data;
-
-//     var opioidsTest = [];
-//     for (var i = 0; i<data.length; i++){
-//       var deaths;
-//       var state;
-//       if ((data[i]["Drug Type"]==="All opioids") && (data[i]["Year"]=="2000")){
-//         deaths = data[i]["Deaths per 100,000"];
-//         state = data[i]["State"];
-//         opioidsTest.push({"Deaths": deaths, "State": state})
-     
-//       }
-      
-//     };
-//     console.log(opioidsTest);
-  
-//   Plotly.newPlot('line',opioidsTest);
-
-//   // Plotly.newPlot('line', barData);
-
-
-// });
-
+chart.data = [{
+  "year": "1994",
+  "cars": 1587,
+  "motorcycles": 650,
+  "bicycles": 121
+}, {
+  "year": "1995",
+  "cars": 1567,
+  "motorcycles": 683,
+  "bicycles": 146
+}, {
+  "year": "1996",
+  "cars": 1617,
+  "motorcycles": 691,
+  "bicycles": 138
+}, {
+  "year": "1997",
+  "cars": 1630,
+  "motorcycles": 642,
+  "bicycles": 127
+}, {
+  "year": "1998",
+  "cars": 1660,
+  "motorcycles": 699,
+  "bicycles": 105
+}, {
+  "year": "1999",
+  "cars": 1683,
+  "motorcycles": 721,
+  "bicycles": 109
+}, {
+  "year": "2000",
+  "cars": 1691,
+  "motorcycles": 737,
+  "bicycles": 112
+}, {
+  "year": "2001",
+  "cars": 1298,
+  "motorcycles": 680,
+  "bicycles": 101
+}, {
+  "year": "2002",
+  "cars": 1275,
+  "motorcycles": 664,
+  "bicycles": 97
+}, {
+  "year": "2003",
+  "cars": 1246,
+  "motorcycles": 648,
+  "bicycles": 93
+}, {
+  "year": "2004",
+  "cars": 1318,
+  "motorcycles": 697,
+  "bicycles": 111
+}, {
+  "year": "2005",
+  "cars": 1213,
+  "motorcycles": 633,
+  "bicycles": 87
+}, {
+  "year": "2006",
+  "cars": 1199,
+  "motorcycles": 621,
+  "bicycles": 79
+}, {
+  "year": "2007",
+  "cars": 1110,
+  "motorcycles": 210,
+  "bicycles": 81
+}, {
+  "year": "2008",
+  "cars": 1165,
+  "motorcycles": 232,
+  "bicycles": 75
+}, {
+  "year": "2009",
+  "cars": 1145,
+  "motorcycles": 219,
+  "bicycles": 88
+}, {
+  "year": "2010",
+  "cars": 1163,
+  "motorcycles": 201,
+  "bicycles": 82
+}, {
+  "year": "2011",
+  "cars": 1180,
+  "motorcycles": 285,
+  "bicycles": 87
+}, {
+  "year": "2012",
+  "cars": 1159,
+  "motorcycles": 277,
+  "bicycles": 71
+}];
