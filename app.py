@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, func
 import datetime as dt 
 import numpy as np
 import pandas as pd
-from sqlalchemy.pool import SingletonThreadPool
+#from sqlalchemy.pool import SingletonThreadPool
 
 app = Flask(__name__)
 
@@ -23,7 +23,7 @@ prescriptions = Base.classes.prescriptions
 
 
 
-session = Session(engine)
+# session = Session(engine)
 
 @app.route('/')
 def index():
@@ -53,7 +53,7 @@ def deathRoute():
     deathList=[]
     for row in deathByState:
         deathList.append({"State": row[0], 
-                         "Prescriptions per 100,000": row[1],
+                         "Deaths per 100,000": row[1],
                          "Drug Type": row[2],
                          "Year": row[3]})
 
@@ -96,7 +96,7 @@ def prescriptionRoute():
 
     return jsonify(presList)
 
-session.close()
+#session.close()
 
 if __name__ == '__main__':
     app.run(debug=True)
