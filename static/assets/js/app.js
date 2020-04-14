@@ -23,57 +23,126 @@ var salesUrl = "http://127.0.0.1:5000/api/v1.0/prescriptionTest";
 
 var deathsDB, salesDB;
 
-d3.json(deathsUrl).then(function(deaths){
-  d3.json(salesUrl).then(function(sales) {
+// This is Melissa's code, I think. 
 
-    deathsDB = deaths;
-    salesDB = sales;
+// d3.json(deathsUrl).then(function(deaths){
+//   d3.json(salesUrl).then(function(sales) {
 
-    var sel = d3.select('#stateSelect');
-    sel.html('');
+//     deathsDB = deaths;
+//     salesDB = sales;
 
-    var states = [];
+//     var sel = d3.select('#stateSelect');
+//     sel.html('');
 
-    sales.forEach(obj => {
-      if(!states.includes(obj.State)) {
-        states.push(obj.State);
-      }
-  });
+//     var states = [];
 
-  states.forEach(state => {
-    sel
-      .append('option')
-      .text(state);
-  });
+//     sales.forEach(obj => {
+//       if(!states.includes(obj.State)) {
+//         states.push(obj.State);
+//       }
+//   });
+
+//   states.forEach(state => {
+//     sel
+//       .append('option')
+//       .text(state);
+//   });
   
-    console.log("DEATHS:", deaths);
-    console.log("SALES:", sales);
-    console.log("sales[0]:", sales[0]["Prescriptions per 100,000"]);
-    var bamaTotal = parseFloat(sales[0]["Prescriptions per 100,000"]) + parseFloat(sales[1]["Prescriptions per 100,000"]);
-    console.log(bamaTotal);
-  }); // end of d3.json sales
-}); // end of d3.json deaths
+//     console.log("DEATHS:", deaths);
+//     console.log("SALES:", sales);
+//     console.log("sales[0]:", sales[0]["Prescriptions per 100,000"]);
+//     var bamaTotal = parseFloat(sales[0]["Prescriptions per 100,000"]) + parseFloat(sales[1]["Prescriptions per 100,000"]);
+//     console.log(bamaTotal);
+//   }); // end of d3.json sales
+// }); // end of d3.json deaths
 
 
 
+
+
+
+//Mellisa's code to fetch sythetic opiods death
 d3.json(deathsUrl).then(function(deaths){
   d3.json(salesUrl).then(function(sales){
 
     deathsDB = deaths;
     salesDB = sales;
+const minYear = "2000";
+const maxYear = "2018";
+for (i = minYear; i<maxYear; i++){
+ 
+  thisYear = deaths.filter(d=>d.Year === i);
   
+console.log(thisYear);
+  
+  synthetic = thisYear.filter(dt=>dt["Drug Type"] === "Synthetic opioids");
+     semi = thisYear.filter(dt=>dt["Drug Type"] === "Natural and semi-synthetic opioids");
+      Heroin = thisYear.filter(dt=>dt["Drug Type"] === "Heroin");
+  //console.log(synthetic);
+  
+  var syntheticDeaths=[];
+  for (var j = 0; j<synthetic.length; j++){
+    syntheticDeaths.push(synthetic[j]["Deaths per 100,000"]);
+  }
+  // console.log(syntheticDeaths);
 
-    var minYear = 2000;
-    var maxYear = 2018;
+  var semiDeaths=[];
+  for (var j = 0; j<semi.length; j++){
+    semiDeaths.push(semi[j]["Deaths per 100,000"]);
+  }
 
-        for (i = minYear; i <= maxYear; i++) 
-        thisYear= deathsDB.map(deathsDB => deathsDB.Year === parseInt(i));
-        console.log("thisYear:", thisYear);
 
-        
+  
+  var heroinDeaths=[];
+  for (var j = 0; j<Heroin.length; j++){
+    heroinDeaths.push(Heroin[j]["Deaths per 100,000"]);
+  }
+  //console.log(heroinDeaths);
 
+
+
+
+  
+  var object = {"Total Synthetic": syntheticDeaths,"Total Semi":semiDeaths, "Total Heroin": heroinDeaths}
+  console.log(object);
+}
   })
 });
+
+
+
+
+// this is printing out all opiods deaths in each state in the year 2000
+// tring to get multiple drugs to print out but unsuccesful
+// d3.json(deathsUrl).then(function(deaths){
+//   d3.json(salesUrl).then(function(sales){
+
+//     deathsDB = deaths;
+//     salesDB = sales;
+  
+
+//     var minYear = 2000;
+//     var maxYear = 2018;
+
+
+// for (var i = 0; i < deathsDB.length; i++) {
+//   if ((deaths[i]["Drug Type"] === "All opioids") && (deaths[i]["Year"] === "2000"))  
+
+//   for (var i = 0; i < deathsDB.length; i++) {
+//     if ((deaths[i]["Drug Type"] === "Heroin") && (deaths[i]["Year"] === "2000"))  
+  
+//   {
+//     console.log("STATE:", deaths[i]["State"]);
+//     console.log("All Opioid Deaths:", deaths[i]["Deaths per 100,000"]);
+//     console.log("All Heroin Deaths:", deaths[i]["Deaths per 100,000"])
+//   }
+// }}
+
+// })
+
+  
+
+// });
 
 
 

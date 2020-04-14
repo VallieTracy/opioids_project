@@ -32,6 +32,36 @@ d3.json(link).then(function(data){
 
 });
 
+//back up stuff
+
+// d3.json(deathsUrl).then(function(deaths){
+//   d3.json(salesUrl).then(function(sales){
+
+//     deathsDB = deaths;
+//     salesDB = sales;
+  
+
+//     var minYear = 2000;
+//     var maxYear = 2018;
+
+//         for (i = minYear; i <= maxYear; i++) 
+//         thisYear= deathsDB.map(deathsDB => deathsDB.Year === parseInt(i));
+//         totalHeroin = thisYear.filter(dt =>["Drug Type"]==="Heroin")
+//         // console.log("totalHeroin:", totalHeroin);
+
+//         var object = {
+//                         "Year":thisYear,
+//                         "Heroin":totalHeroin
+
+//         }
+//         console.log(object)
+
+        
+
+//   })
+// });
+
+
 var series
 
 
