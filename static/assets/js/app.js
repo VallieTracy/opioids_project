@@ -9,6 +9,8 @@ var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "20
 var mymap = L.map('map')
   .setView([38.27, -95.86], 4);
 
+
+
 // Adding tile layer
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -28,7 +30,7 @@ var salesUrl = "/api/v1.0/prescriptionTest";
 function choroColor(d){
   // min for all opioids = 0.65003, max for all opioids = 49.60242
   var color = "";
-  if (d > 49){
+  if (d > 49){  //should probably start a little lower, so that more fall into this other than just one state
     color = "#08306b";
   }
   else if (d > 42){
@@ -55,56 +57,58 @@ function choroColor(d){
   return color;
 }
 
+//uses the data and updates the year based on user select
+function yearUpdate(data, year){
+  var allOpioids = [];
+  for (var i = 0; i < data.length; i++){
+    
+    var deaths;
+    var state;
+
+    if ((data[i]["Drug Type"] === "All opioids") && (data[i]["Year"] === year)){
+
+      deaths = parseFloat(data[i]["Deaths per 100,000"]);
+      state = data[i]["State"];
+
+      allOpioids.push({"Deaths": deaths, "State": state});
+    }
+  }
+  return allOpioids;
+}
 
 
-d3.json(deathsUrl).then(function(data){
+d3.json(deathsUrl).then(function(deaths){
 // const minYear = "2000";
 // const maxYear = "2018";
 
 // for (i = minYear; i<maxYear; i++){
  
 
-//   thisYear = data.filter(d=>d.Year === i);
+//   thisYear = deaths.filter(d=>d.Year === i);
+//   // console.log(thisYear);
 //   synthetic = thisYear.filter(dt=>dt["Drug Type"] === "Synthetic opioids");
-//   syntheticDeaths = synthetic["Deaths per 100,000"]
+//   // console.log(synthetic);
+//   var syntheticDeaths=[];
+//   for (var j = 0; j<synthetic.length; j++){
+//     syntheticDeaths.push(synthetic[j]["Deaths per 100,000"]);
 
-//   var object = {"Year": thisYear, "Total Synthetic": syntheticDeaths}
+//   }
+//   //console.log(syntheticDeaths);
+//   var object = {"Total Synthetic": syntheticDeaths}
+//   console.log(object);
 
 // }
 
-
-
-
-  // console.log(data)
-
-  var opioidsTest = [];
-  for (var i = 0; i < data.length; i++){
-    
-    var deaths;
-    var state;
-
-    if ((data[i]["Drug Type"] === "All opioids") && (data[i]["Year"] === "2018")){
-      //console.log(data[i]["Deaths per 100,000"]);
-      deaths = parseFloat(data[i]["Deaths per 100,000"]);
-      state = data[i]["State"];
-
-      opioidsTest.push({"Deaths": deaths, "State": state});
-    }
-  };
-
-  
-  console.log(opioidsTest);
-
-
-
+  var stateInfo;
+  var deathsValue
   //add color to states
   function style(feature) {
-    //console.log(feature.opioidsTest);
     var stateToFind = feature.properties.name;
-    var stateInfo = opioidsTest.filter(s=> s.State == stateToFind);
-    var deathsValue = stateInfo[0].Deaths
+    var opioidsYear = yearUpdate(deaths, "2018")
+    stateInfo = opioidsYear.filter(s=> s.State == stateToFind);
+    //console.log(stateInfo);
 
-    console.log(stateInfo[0].Deaths)
+    deathsValue = stateInfo[0].Deaths
 
     return {
         fillColor: choroColor(deathsValue),
@@ -126,11 +130,11 @@ d3.json(deathsUrl).then(function(data){
     var layer = e.target;
 
     layer.setStyle({
-        weight: 5,
+        weight: 2,
         color: '#666',
         dashArray: '',
         fillOpacity: 0.7
-    });
+    }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <h7> All opioid deaths per 100,000: " + deathsValue + "</h7>");
 
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
@@ -141,25 +145,84 @@ d3.json(deathsUrl).then(function(data){
     geojson.resetStyle(e.target);
   }
 
-  function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
-  }
+  // function zoomToFeature(e) {
+  //   map.fitBounds(e.target.getBounds());
+  // }
 
   function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: zoomToFeature
+        //click: zoomToFeature
     });
   }
+
 
   geojson = L.geoJson(statesData, {
     style: style,
     onEachFeature: onEachFeature
   }).addTo(mymap);
+
   //end highlight on mouse over
 
+
+  // // testing for overlays for years
+  // function onEachFeature(feature, layer){
+  //   layer.on({
+  //     click:(function(){
+  //       updateMaps(feature, layer);
+  //     }).bind(this)
+  //   })
+  // }
+
+
+  // yearUpdate(deaths, "2000");
+  // var layer00 = L.geoJson(statesData,{
+  //   style:style,
+  //   onEachFeature: onEachFeature
+  // })
+
+  // yearUpdate(deaths, "2001");
+  // var layer01 = L.geoJson(statesData,{
+  //   style:style,
+  //   onEachFeature: onEachFeature
+  // })
+
+  // yearUpdate(deaths, "20002");
+  // var layer02 = L.geoJson(statesData,{
+  //   style:style,
+  //   onEachFeature: onEachFeature
+  // })
+
+  // yearUpdate(deaths, "20003");
+  // var layer03 = L.geoJson(statesData,{
+  //   style:style,
+  //   onEachFeature: onEachFeature
+  // })
+
+
+  // var overlays = {
+  //   2000:layer00
+  // }
+
+  // // layer control for baseMaps
+  // L.control.layers(overlays, {
+  //   collapsed: false
+  // }).addTo(mymap);
+
+  // mymap = L.map('map', {
+  //   center: [38.27, -95.86],
+  //   zoom: 4,
+  //   layers: [layer00]
+  // });
+  // // end test for adding radio dial of years to map
+
 });
+
+
+
+
+
 
 
 //function for when the user selects a state
@@ -170,18 +233,27 @@ function optionChanged(newState){
 
 //function for initial landing page
 function initDashboard(){
-  var selector = d3.select("#selDataset");
+  var stateSelector = d3.select("#selDataset");
 
-  d3.json(deathsUrl).then((data)=>{
-   //console.log(data);
+  d3.json(deathsUrl).then((deaths)=>{
 
     states.forEach((stateSelect)=>{
-      selector.append("option")
+      stateSelector.append("option")
         .text(stateSelect)
         .property("value", stateSelect)
     });
 
     var stateSelect = states[0];
+
+    var yearSelector = d3.select("#yrDataset");
+    years.forEach((yearSelect)=>{
+      yearSelector.append("option")
+      .text(yearSelect)
+      .property("value", yearSelect)
+    });
+
+    var yearSelect = years[0]
+;
   });
 
   //call functions here to draw the initial graphs for the landing page.

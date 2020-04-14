@@ -49,35 +49,8 @@ def deathRoute():
                           "Fips": row[2],
                           "Drug Type": row[3],
                           "Year": row[4]})
-    # print (deathList)
+
     return jsonify(deathList)
-
-    # drugTypeList= ["Cocaine", "Heroin", "Natural and semi-synthetic opioids", "Psychostimulants", "Synthetic opioids", "All drugs", "All opioids"]
-    # deathList={}
-    
-    # for item in deathByState:
-    #     state = item[0]
-    #     deaths_per_100000 = item[1]
-    #     if deaths_per_100000 != "N/A":
-    #         deaths_per_100000 = float(deaths_per_100000)
-    #     fips = item[2]
-    #     drug_type = item[3]
-    #     year = item[4]
-
-    #     found = False
-    #     for key in deathList:
-    #         if state == key:
-    #             deathList[key][year] = {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}
-    #             found = True
-    #         if not found:
-    #             deathList[state] = {year: {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}}
-
-        # for state in deathList:
-        #     for drug in drugTypeList:
-        #         if (state == state) and (year == year):
-        #             if drug == drug_type:
-        #                 deathList[state][year][info] = {drug_type: deaths_per_10000}
-
 
 
 
