@@ -6,13 +6,10 @@ from sqlalchemy import create_engine, func
 import datetime as dt 
 import numpy as np
 import pandas as pd
-from sqlalchemy.pool import SingletonThreadPool
 
 app = Flask(__name__)
 
-engine = create_engine('sqlite:///opioidsDB.db',
-                        echo=True,
-                        connect_args={"check_same_thread": False})
+engine = create_engine('sqlite:///opioidsDB.db')
 
 Base = automap_base()
 Base.prepare(engine, reflect=True)
@@ -23,7 +20,6 @@ prescriptions = Base.classes.prescriptions
 
 
 
-session = Session(engine)
 
 @app.route('/')
 def index():
@@ -53,34 +49,13 @@ def deathRoute():
     deathList=[]
     for row in deathByState:
         deathList.append({"State": row[0], 
-                         "Prescriptions per 100,000": row[1],
+                         "Deaths per 100,000": row[1],
                          "Drug Type": row[2],
                          "Year": row[3]})
 
     return jsonify(deathList) 
 
         
-    #return jsonify(deathList)   
-
-    # deathList={}
-    # for item in deathByState:
-    #     state = item[0]
-    #     deaths_per_100000 = item[1]
-    #     if deaths_per_100000 != "N/A":
-    #         deaths_per_100000 = float(deaths_per_100000)
-    #     fips = item[2]
-    #     drug_type = item[3]
-    #     year = item[4]
-    #     found = False
-    #     for key in deathList:
-    #         if state == key:
-    #             deathList[key][year] = {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}
-    #             found = True
-    #     if not found:
-    #         deathList[state] = {year: {"info": {"Deaths per 100,000": deaths_per_100000, "Drug Type": drug_type, "Year": year, "Fips": fips}}}
-    
-    # return deathList
-
 @app.route('/api/v1.0/prescriptionTest')
 def prescriptionRoute():
     session = Session(engine)
@@ -96,7 +71,7 @@ def prescriptionRoute():
 
     return jsonify(presList)
 
-session.close()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
