@@ -21,8 +21,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 
 
-var deathsUrl = "http://127.0.0.1:5000/api/v1.0/deathTest";
-var salesUrl = "http://127.0.0.1:5000/api/v1.0/prescriptionTest";
+var deathsUrl = "/api/v1.0/deathTest";
+var salesUrl = "/api/v1.0/prescriptionTest";
 
 // coloring for choropleth.
 function choroColor(d){
@@ -58,41 +58,56 @@ function choroColor(d){
 
 
 d3.json(deathsUrl).then(function(data){
-  console.log(data)
+// const minYear = "2000";
+// const maxYear = "2018";
+
+// for (i = minYear; i<maxYear; i++){
+ 
+
+//   thisYear = data.filter(d=>d.Year === i);
+//   synthetic = thisYear.filter(dt=>dt["Drug Type"] === "Synthetic opioids");
+//   syntheticDeaths = synthetic["Deaths per 100,000"]
+
+//   var object = {"Year": thisYear, "Total Synthetic": syntheticDeaths}
+
+// }
+
+
+
+
+  // console.log(data)
 
   var opioidsTest = [];
-  for (var i = 0; i<data.length; i++){
+  for (var i = 0; i < data.length; i++){
     
     var deaths;
     var state;
 
-    if ((data[i]["Drug Type"]==="All opioids") && (data[i]["Year"]==="2018")){
+    if ((data[i]["Drug Type"] === "All opioids") && (data[i]["Year"] === "2018")){
       //console.log(data[i]["Deaths per 100,000"]);
-      deaths = data[i]["Deaths per 100,000"];
+      deaths = parseFloat(data[i]["Deaths per 100,000"]);
       state = data[i]["State"];
 
       opioidsTest.push({"Deaths": deaths, "State": state});
     }
   };
 
+  
+  console.log(opioidsTest);
 
-  // opioidsTest = []
-  // for ( var i = 0; i<states.length; i++){
-  //   var state = states[i];
-  //   var year = "2018";
-  //   console.log(data[state][year]["info"]);
-  //   if (data[state][year]["info"]["Drug Type"]==="All opioids"){
-  //     opioidsTest.push({"State": state, "Deaths": data[state][year]["info"]["Deaths per 100,000"]});
-  //   }
-  // }
-  //console.log(opioidsTest);
 
 
   //add color to states
   function style(feature) {
     //console.log(feature.opioidsTest);
+    var stateToFind = feature.properties.name;
+    var stateInfo = opioidsTest.filter(s=> s.State == stateToFind);
+    var deathsValue = stateInfo[0].Deaths
+
+    console.log(stateInfo[0].Deaths)
+
     return {
-        fillColor: choroColor(feature.opioidsTest),
+        fillColor: choroColor(deathsValue),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -100,6 +115,8 @@ d3.json(deathsUrl).then(function(data){
         fillOpacity: 0.7
     };
   }
+
+
   // adds state outlines
   L.geoJson(statesData, {style: style}).addTo(mymap);
 

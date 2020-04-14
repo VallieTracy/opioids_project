@@ -6,13 +6,12 @@ from sqlalchemy import create_engine, func
 import datetime as dt 
 import numpy as np
 import pandas as pd
-from sqlalchemy.pool import SingletonThreadPool
+
 
 app = Flask(__name__)
 
-engine = create_engine('sqlite:///opioidsDB.db',
-                        echo=True,
-                        connect_args={"check_same_thread": False})
+
+engine = create_engine('sqlite:///opioidsDB.db')
 
 Base = automap_base()
 Base.prepare(engine, reflect=True)
@@ -21,9 +20,6 @@ Base.prepare(engine, reflect=True)
 deaths = Base.classes.deaths
 prescriptions = Base.classes.prescriptions
 
-
-
-session = Session(engine)
 
 @app.route('/')
 def index():
@@ -49,11 +45,11 @@ def deathRoute():
     for row in deathByState:
 
         deathList.append({"State": row[0], 
-                          "Deaths per 100,000": row [1],
+                          "Deaths per 100,000": row[1],
                           "Fips": row[2],
                           "Drug Type": row[3],
                           "Year": row[4]})
-    print (deathList)
+    # print (deathList)
     return jsonify(deathList)
 
     # drugTypeList= ["Cocaine", "Heroin", "Natural and semi-synthetic opioids", "Psychostimulants", "Synthetic opioids", "All drugs", "All opioids"]
@@ -84,8 +80,6 @@ def deathRoute():
 
 
 
-    return jsonify(deathList)
-
 
 @app.route('/api/v1.0/prescriptionTest')
 def prescriptionRoute():
@@ -103,7 +97,6 @@ def prescriptionRoute():
 
     return jsonify(presList)
 
-session.close()
 
 if __name__ == '__main__':
     app.run(debug=True)
