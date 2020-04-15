@@ -255,6 +255,7 @@ d3.json(deathsUrl).then(function(deaths){
 
     //Liz Graph
 
+
     var chart = am4core.create("chartdiv", am4charts.XYChart);
     chart.data = deathData; 
 
@@ -345,6 +346,7 @@ d3.json(deathsUrl).then(function(deaths){
     range2.label.rotation = 90;
     range2.label.horizontalCenter = "right";
     range2.label.verticalCenter = "bottom";
+
     // end am4core.ready
 
     //END LIZ SECTION
@@ -405,144 +407,106 @@ d3.json(deathsUrl).then(function(deaths){
     // //   "Oxy":  316.74734,
     // //   "Hydro": 247.3340 }
     // // Here's a look at newData
-    // console.log("newSData"); 
-    // console.log(newSData);
 
-    // // Dinking around before tutoring session
-    // console.log("[0]:", newSData[0]);
-    // for (var k = 0; k < newSData.length; k++) {
-    //   console.log("[k]:", newSData[k]);
-    // }
+    console.log("newData"); 
+    console.log(newData);
+    // END OF DOM'S CODE BUT DUPLICATED FOR THE DEATHS AS OPPOSED TO SALES
+    // -------------------------------------------------------------------------------------
 
 
+    // Vallie's radial chart
+    //Chart code 
+    /* Create chart instance */
+    am4core.ready(function() {
 
-    // // -------------------------------------------------------------------------------------------------------------
-    // // DOM's CODE, BUT FOR DEATHS AS OPPOSED TO SALES
-    // // Determine the range of year by building an object 
-    // // and adding a key for each year. We've used a similar
-    // // strategy in class activities.
-    // var yearList = deaths.map(d => d.Year);
-    // yearList.sort();   
-    // var yearDictionary = {}; 
-    // yearList.forEach((year) => {
-    //   if (year in yearDictionary)
-    //   {
-    //     yearDictionary[year]++; 
-    //   }
-    //   else
-    //   {
-    //     yearDictionary[year] = 1; 
-    //   }
-    // }); 
-    // // // Show the format of the yearDictionary
-    // console.log("yearDDictionary"); 
-    // console.log(yearDictionary); 
-    // // // Next, extract the prescription data for each drug type. Note that this currently
-    // // // addes together all of the prescription data for each state--so you can't currently
-    // // // filter by a particular state. Yes, it's possible to filter by state, but ... one
-    // // // thing at a time.
-    // var newData = [];
-    // //const yearKeys = Object.keys(yearDictionary);     
-    // // // For each year in the list of years ...
-    // for (const yearKey of yearKeys) {
-    // //   // ... filter out the Oxycodone values and sum them up for each state
-    //   var natData = deaths.filter(d => d["Drug Type"] === "Natural and semi-synthetic opioids" && d["Year"] == yearKey);
-    //   var natSum = 0.0;
-    //   natData.forEach((item) => {
-    //     if (isNaN(item["Deaths per 100,000"]) == false){
-    //       natSum += item["Deaths per 100,000"];
-    //     }
-    //   });
-    // //   // ... filter out the Hydrocodone values and sum them up for each state
-    // //   var hydroData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearKey);
-    // //   var hydroSum = 0.0; 
-    // //   hydroData.forEach((item) => {
-    // //     hydroSum += parseFloat(item["Prescriptions per 100,000"]); 
-    // //   });
-    //   console.log(`year: ${yearKey}, natSum: ${natSum}`); 
-    //   //console.log(`year: ${yearDKey}, hydroSum: ${hydroSum}`); 
-    // //   // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
-    //   var newDict = {}; 
-    //   newDict["Year"] = yearKey;
-    //   newDict["Nat"] = natSum;
-    // //   newDDict["Hydro"] = hydroSum; 
-    // //   // Finally, add this new dictionary to the array
-    //   newData.push(newDict); 
-    // }
-    // // // newData now contains an array of objects, where each object looks
-    // // // like this:
-    // // // { "Year": "2000",
-    // // //   "Oxy":  316.74734,
-    // // //   "Hydro": 247.3340 }
-    // // // Here's a look at newData
-    // console.log("newData"); 
-    // console.log(newData);
-    // // END OF DOM'S CODE BUT DUPLICATED FOR THE DEATHS AS OPPOSED TO SALES
-    // // -------------------------------------------------------------------------------------
+      // Themes begin
+      am4core.useTheme(am4themes_animated);
+      // Themes end
+      
+      /* Create chart instance */
+      var chart = am4core.create("chartdivRadial", am4charts.RadarChart);
+      
+      // var data = [];
+      // var value1 = 500;
+      // var value2 = 600;
+      
+      // for(var i = 0; i < 12; i++){
+      //   let date = new Date();
+      //   date.setMonth(i, 1);
+      //   value1 -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
+      //   value2 -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
+      //   data.push({date:date, value1:value1, value2:value2})
+      // }
+      
+      chart.data = newSData;
+      
+      /* Create axes */
+      var categoryAxis = chart.xAxes.push(new am4charts.DateAxis());
+      
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.extraMin = 0.2;
+      valueAxis.extraMax = 0.2;
+      valueAxis.tooltip.disabled = true;
+      
+      /* Create and configure series */
+      var series1 = chart.series.push(new am4charts.RadarSeries());
+      series1.dataFields.valueY = "Oxy";
+      series1.dataFields.dateX = "Year";
+      series1.strokeWidth = 3;
+      series1.tooltipText = "{name}\nSales/100k: {valueY}";
+      series1.name = "Oxycodone";
+      series1.bullets.create(am4charts.CircleBullet);
+      series1.dataItems.template.locations.dateX = 0.5;
+      
+      var series2 = chart.series.push(new am4charts.RadarColumnSeries());
+      series2.dataFields.valueY = "Hydro";
+      series2.dataFields.dateX = "Year";
+      series2.strokeWidth = 0.5;
+      series2.tooltipText = "{name}\nSales/100k: {valueY}";
+      series2.name = "Hydrocodone";
+      series2.columns.template.fill = am4core.color("#CDA2AB");
+      series2.dataItems.template.locations.dateX = 0.5;
+      
+      //chart.scrollbarX = new am4core.Scrollbar();
+      //chart.scrollbarY = new am4core.Scrollbar();
+      
+      chart.cursor = new am4charts.RadarCursor();
+      
+      chart.legend = new am4charts.Legend();
+      chart.legend.position = "bottom";
+      
+       
+      
+      }); // end am4core.ready()
 
 
-    // // Vallie's radial chart
-    // //Chart code 
-    // /* Create chart instance */
+
+    // MORE BASIC CHART
     // var chart = am4core.create("chartdivRadial", am4charts.RadarChart);
     // /* Add data */
-    // chart.data = [{
-    //   "country": "Lithuania",
-    //   "litres": 501,
-    //   "units": 250
-    // }, {
-    //   "country": "Czech Republic",
-    //   "litres": 301,
-    //   "units": 222
-    // }, {
-    //   "country": "Ireland",
-    //   "litres": 266,
-    //   "units": 179
-    // }, {
-    //   "country": "Germany",
-    //   "litres": 165,
-    //   "units": 298
-    // }, {
-    //   "country": "Australia",
-    //   "litres": 139,
-    //   "units": 299
-    // }, {
-    //   "country": "Austria",
-    //   "litres": 336,
-    //   "units": 185
-    // }, {
-    //   "country": "UK",
-    //   "litres": 290,
-    //   "units": 150
-    // }, {
-    //   "country": "Belgium",
-    //   "litres": 325,
-    //   "units": 382
-    // }, {
-    //   "country": "The Netherlands",
-    //   "litres": 40,
-    //   "units": 172
-    // }];
+    // chart.data = newSData;
+    
     // /* Create axes */
     // var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    // categoryAxis.dataFields.category = "country";
+    // categoryAxis.dataFields.category = "Year";
     // var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     // /* Create and configure series */
     // var series = chart.series.push(new am4charts.RadarSeries());
-    // series.dataFields.valueY = "litres";
-    // series.dataFields.categoryX = "country";
-    // series.name = "Sales";
+    // series.dataFields.valueY = "Oxy";
+    // series.dataFields.categoryX = "Year";
+    // series.name = "Oxy";
     // series.strokeWidth = 3;
     // series.zIndex = 2;
     // var series2 = chart.series.push(new am4charts.RadarColumnSeries());
-    // series2.dataFields.valueY = "units";
-    // series2.dataFields.categoryX = "country";
-    // series2.name = "Units";
+    // series2.dataFields.valueY = "Hydro";
+    // series2.dataFields.categoryX = "Year";
+    // series2.name = "Hydro";
     // series2.strokeWidth = 0;
     // series2.columns.template.fill = am4core.color("#CDA2AB");
     // series2.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
-    }
-  }
+
+    // chart.legend = new am4charts.Legend();
+
     
   }) //end of sales json
 
