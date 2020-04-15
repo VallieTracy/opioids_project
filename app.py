@@ -70,15 +70,13 @@ def deathRoute():
 @app.route('/api/v1.0/prescriptionTest')
 def prescriptionRoute():
     session = Session(engine)
-    prescriptionsByState = session.query(prescriptions.Location, prescriptions.Data, prescriptions.Oxy_Hydro, prescriptions.TimeFrame)
+    prescriptionsByState = session.query(prescriptions.Location, prescriptions.Data, prescriptions.Fips, prescriptions.Oxy_Hydro, prescriptions.TimeFrame)
     session.close()
 
     presList = []
     for row in prescriptionsByState:
         presList.append({"State": row[0], 
                          "Prescriptions per 100,000": row[1],
-
-
                          "Fips": row[2],
                          "Oxycodone / Hydrocodone": row[3],
                          "Year": row[4]})
