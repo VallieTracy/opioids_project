@@ -18,7 +18,14 @@
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
 
+    <!-- AmCharts -->
+    <script src="//www.amcharts.com/lib/4/core.js"></script>
+    <script src="//www.amcharts.com/lib/4/charts.js"></script>
+    <script src="//www.amcharts.com/lib/4/maps.js"></script>
+
+    <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="static/assets/css/style.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Opioids Data</title>
@@ -27,13 +34,23 @@
 <body>
   <div class = "container">
     <div class ="row">
-      <div class ="col-lg-12">
+      <div class ="col-md-8">
         <div id="map"></div>
+      </div>
+      <div class ="col-md-4">
+        <p>Here's where we can link to the about page and data view.</p>
+        <h7>Select State</h7>
+        <select id ="selDataset" onchange="optionChanged(this.value)"></select>
+        <h7>Select Year</h7>
+        <select id ="yrDataset" onchange="optionChanged(this.value)"></select>
       </div>
     </div>
     <div class ="row">
       <div class = "col-md-6">
-        <div id="bar"></div>
+        <div id="chartdiv"></div>
+      <div class = "col-md-6">
+        <div id="chartdivRadial"></div>
+      </div>
       </div>
     </div>
   </div>
@@ -43,7 +60,7 @@
   <footer>
     <div class="footer">Copyright &copy; Liz Jones, Melissa Keller, & Vallie Tracy 2020</div>
   </footer>
-
+    <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
@@ -53,9 +70,20 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
+
+    <!-- leaflet -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- d3 -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- state coordinate information for the choropleth outlines -->
+    <script type="text/javascript" src="static/assets/js/us-states.js"></script>
+
+    <!-- api key -->
     <script type="text/javascript" src="static/assets/js/config.js"></script>
+
+    <!-- Our Javascript -->
     <script type="text/javascript" src="static/assets/js/app.js"></script>
 </body>
 </html>
