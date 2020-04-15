@@ -1,6 +1,8 @@
+
 var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
 
 // Creating map object
+
 var mymap = L.map('map')
   .setView([38.27, -95.86], 4);
 
@@ -15,6 +17,10 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: API_KEY
 }).addTo(mymap);
+
+
+
+var deathsDB, salesDB;
 
 
 
@@ -165,6 +171,7 @@ d3.json(deathsUrl).then(function(deaths){
 
     //LIZ SECTION
 
+
     // Determine the range of year by building an object 
     // and adding a key for each year. We've used a similar
     // strategy in class activities.
@@ -182,9 +189,11 @@ d3.json(deathsUrl).then(function(deaths){
         yearDictionary[year] = 1; 
       }
     }); 
+
     // Show the format of the yearDictionary
     // console.log("yearDictionary"); 
     // console.log(yearDictionary); 
+
     var deathData = [];
     const yearKeys = Object.keys(yearDictionary);     
     // For each year in the list of years ...
@@ -212,6 +221,7 @@ d3.json(deathsUrl).then(function(deaths){
     }
     console.log("DeathData"); 
     console.log(deathData);  
+
 
 
     //Liz Graph
@@ -629,6 +639,7 @@ function initDashboard(){
   //call functions here to draw the initial radial and stacked area graphs for the landing page.
 
 }
+
 
 // call initial landing page function to get landing page to display
 initDashboard();

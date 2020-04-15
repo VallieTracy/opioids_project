@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 
-        <!-- Bootstrap -->
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
@@ -18,12 +18,16 @@
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
 
-    <!-- AmCharts -->
-    <script src="//www.amcharts.com/lib/4/core.js"></script>
-    <script src="//www.amcharts.com/lib/4/charts.js"></script>
+
+    <!-- AMcharts Resources for radial chart-->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
     <script src="//www.amcharts.com/lib/4/maps.js"></script>
 
     <!-- Our CSS -->
+
     <link rel="stylesheet" type="text/css" href="static/assets/css/style.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,28 +43,37 @@
       </div>
       <div class ="col-md-4">
         <p>Here's where we can link to the about page and data view.</p>
+
         <h7>Select State</h7>
         <select id ="selDataset" onchange="optionChanged(this.value)"></select>
         <h7>Select Year</h7>
         <select id ="yrDataset" onchange="optionChanged(this.value)"></select>
+
       </div>
     </div>
     <div class ="row">
       <div class = "col-md-6">
         <div id="chartdiv"></div>
+
       <div class = "col-md-6">
         <div id="chartdivRadial"></div>
       </div>
+
       </div>
     </div>
+    
   </div>
+   
   
 
   <!-- Footer Section -->
-  <footer>
+  <!-- <footer>
     <div class="footer">Copyright &copy; Liz Jones, Melissa Keller, & Vallie Tracy 2020</div>
-  </footer>
+
+  </footer> -->
+
     <!-- bootstrap -->
+
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
@@ -85,5 +98,11 @@
 
     <!-- Our Javascript -->
     <script type="text/javascript" src="static/assets/js/app.js"></script>
+    <!-- <script type="text/javascript" src="static/assets/js/testing.js"></script> -->
+
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script type="text/javascript" src="static/assets/js/us-states.js"></script> 
 </body>
 </html>
