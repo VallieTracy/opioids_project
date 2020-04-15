@@ -17,10 +17,26 @@ footer {
     }
 
 #map{
-    height: 480px;
+    height: 400px;
 }
 
 #chartdivRadial {
     width: 100%;
     height: 500px;
   }
+
+
+.leaflet-bottom{
+    background-color: white;
+
+}
+
+.leaflet-left{
+    margin-bottom: 15px;
+}
+
+span{
+    padding: 5px;
+    margin: 5px;  
+}
+
