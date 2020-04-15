@@ -275,7 +275,7 @@ d3.json(deathsUrl).then(function(deaths){
     series.dataFields.dateX = "Year";
     series.name = "Heroin";
     series.dataFields.valueY = "Heroin";
-    series.tooltipHTML = "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>{valueY.value}</b></span>";
+    //series.tooltipHTML = "<img src='C:\Users\lizba\Desktop";
     series.tooltipText = "[#000]{valueY.value}[/]";
     series.tooltip.background.fill = am4core.color("#FFF");
     series.tooltip.getStrokeFromObject = true;
