@@ -19,3 +19,8 @@ footer {
 #map{
     height: 400px;
 }
+
+dl, ol, ul {
+    margin-bottom:none;
+    margin-top: none;
+}

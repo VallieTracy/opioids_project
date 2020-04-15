@@ -1,8 +1,3 @@
-var states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Dist. of Columbia", "Florida",
-  "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
-  "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina",
-  "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
-  "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
 var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
 
 // Creating map object
@@ -57,7 +52,22 @@ function choroColor(d){
   return color;
 }
 
-//uses the data and updates the year based on user select
+//adding legend to the map
+var legend = L.control({position: "bottomleft"});
+legend.onAdd = function(mymap){
+  var div = L.DomUtil.create("div", "info legend"),
+  limits = [0, 3, 8, 14, 20, 27, 34, 40]
+  div.innerHTML += '<p>Deaths from All Opioids, per 100,000</p>'
+  for(var i =0; i<limits.length; i++){
+
+    div.innerHTML += '<ul style = background-color:' +choroColor(limits[i]+1) + '>' +
+    limits[i]+(limits[i+1] ? '&ndash;' + limits[i+1] : ' + </ul>');
+  }
+  return div;
+};
+legend.addTo(mymap);
+
+//filters for the year that the user has selected and colors the map based on deaths from all opioids.
 function yearUpdate(year){
 
   d3.json(deathsUrl).then(function(data){
@@ -143,30 +153,51 @@ function yearUpdate(year){
 
 
 d3.json(deathsUrl).then(function(deaths){
+  d3.json(salesUrl).then(function(sales){
 
-  //testing for Liz and Vallie's graphs
-// const minYear = "2000";
-// const maxYear = "2018";
+//Liz's code to fetch sythetic opiods death
+    deathsDB = deaths;
 
-// for (i = minYear; i<maxYear; i++){
- 
+    const minYear = "2000";
+    const maxYear = "2018";
 
-//   thisYear = deaths.filter(d=>d.Year === i);
-//   // console.log(thisYear);
-//   synthetic = thisYear.filter(dt=>dt["Drug Type"] === "Synthetic opioids");
-//   // console.log(synthetic);
-//   var syntheticDeaths=[];
-//   for (var j = 0; j<synthetic.length; j++){
-//     syntheticDeaths.push(synthetic[j]["Deaths per 100,000"]);
+    for (var a = 0; a<statesData.features.length; a++){
 
-//   }
-//   //console.log(syntheticDeaths);
-//   var object = {"Total Synthetic": syntheticDeaths}
-//   console.log(object);
+      var stateName = statesData.features[a].properties.name;
 
-// }
+      for (i = minYear; i<=maxYear; i++){
+      
+        thisYear = deaths.filter(d=>d.Year === i);
+        // console.log(thisYear);
 
+        synthetic = thisYear.filter(dt=>dt["Drug Type"] === "Synthetic opioids");
+        semi = thisYear.filter(dt=>dt["Drug Type"] === "Natural and semi-synthetic opioids");
+        Heroin = thisYear.filter(dt=>dt["Drug Type"] === "Heroin");
+        //console.log(synthetic);
+        
+        var syntheticDeaths=[];
+        for (var j = 0; j<synthetic.length; j++){
+          syntheticDeaths.push(synthetic[j]["Deaths per 100,000"]);
+        }
+        // console.log(syntheticDeaths);
+        var semiDeaths=[];
+        for (var j = 0; j<semi.length; j++){
+          semiDeaths.push(semi[j]["Deaths per 100,000"]);
+        }
+        
+        var heroinDeaths=[];
+        for (var j = 0; j<Heroin.length; j++){
+          heroinDeaths.push(Heroin[j]["Deaths per 100,000"]);
+        }
+        
+        var object = {"Total Synthetic": syntheticDeaths,"Total Semi":semiDeaths, 
+        "Total Heroin": heroinDeaths, "Year":i, "States": stateName};
 
+        console.log(object);
+      }
+
+    }
+  })
 });
 
 
@@ -185,14 +216,17 @@ function initDashboard(){
   var stateSelector = d3.select("#selDataset");
 
   d3.json(deathsUrl).then((deaths)=>{
+    var stateName = [];
+    for (var a = 0; a<statesData.features.length; a++){
+      stateName.push(statesData.features[a].properties.name);
+    }
 
-    states.forEach((stateSelect)=>{
+    stateName.forEach((stateSelect)=>{
       stateSelector.append("option")
         .text(stateSelect)
         .property("value", stateSelect)
     });
-
-    var stateSelect = states[0];
+    var stateSelect = stateName[0];
 
     var yearSelector = d3.select("#yrDataset");
     years.forEach((yearSelect)=>{
@@ -206,8 +240,9 @@ function initDashboard(){
     yearUpdate(yearSelect);
   });
 
-  //call functions here to draw the initial graphs for the landing page.
+  //call functions here to draw the initial radial and stacked area graphs for the landing page.
 
 }
 
+// call initial landing page function to get landing page to display
 initDashboard();
