@@ -24,6 +24,7 @@ prescriptions = Base.classes.prescriptions
 
 
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -76,8 +77,6 @@ def prescriptionRoute():
     for row in prescriptionsByState:
         presList.append({"State": row[0], 
                          "Prescriptions per 100,000": row[1],
-
-
 
 
                          "Fips": row[2],
