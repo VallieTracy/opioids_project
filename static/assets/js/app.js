@@ -395,7 +395,6 @@ d3.json(deathsUrl).then(function(deaths){
     range2.label.verticalCenter = "bottom";
     // end am4core.ready
 
-
     //END LIZ SECTION
     
     //VALLIE SECTION
