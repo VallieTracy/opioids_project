@@ -21,17 +21,6 @@ var deathsDB, salesDB;
 d3.json(deathsUrl).then(function(deaths){
   d3.json(salesUrl).then(function(sales) {
 
-    for (var q=0; q<deaths.length; q++){
-    
-      deaths[q]["Deaths per 100,000"] =+ deaths[q]["Deaths per 100,000"];
-      deaths[q]["Year"] =+ deaths[q]["Year"];
-  }
-  
-  for (var q =0; q<sales.length; q++){
-      sales[q]["Year"] =+ sales[q]["Year"];
-      sales[q]["Prescriptions per 100,000"] =+ sales[q]["Prescriptions per 100,000"];
-  }
-
     deathsDB = deaths;
     salesDB = sales;
     console.log("salesDB:", salesDB);
@@ -64,7 +53,7 @@ d3.json(deathsUrl).then(function(deaths){
     yearList.sort();   
     var yearDictionary = {}; 
     yearList.forEach((year) => {
-      
+      year = parseInt(year); 
       if (year in yearDictionary)
       {
         yearDictionary[year]++; 
@@ -76,36 +65,59 @@ d3.json(deathsUrl).then(function(deaths){
     }); 
 
     // Show the format of the yearDictionary
-    // console.log("yearDictionary"); 
-    // console.log(yearDictionary); 
+    console.log("yearDictionary"); 
+    console.log(yearDictionary); 
 
-    var deathData = [];
+    // Next, extract the prescription data for each drug type. Note that this currently
+    // addes together all of the prescription data for each state--so you can't currently
+    // filter by a particular state. Yes, it's possible to filter by state, but ... one
+    // thing at a time.
+    var newData = [];
     const yearKeys = Object.keys(yearDictionary);     
+
     // For each year in the list of years ...
     for (const yearKey of yearKeys) {
-      //console.log(deaths);
+
       // ... filter out the Oxycodone values and sum them up for each state
-      var heroinData = deaths.filter(d => d["Drug Type"] === "Heroin" && d["Year"] == yearKey);
-      //console.log(heroinData);
-      var heroinSum = 0.0;
-      heroinData.forEach((item) => {
-        //console.log(item["Deaths per 100,000"])
-        if (isNaN(item["Deaths per 100,000"]) == false){
-          heroinSum += item["Deaths per 100,000"];
-        }
+      var oxyData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Oxycodone" && d["Year"] == yearKey);
+      var oxySum = 0.0;
+      oxyData.forEach((item) => {
+        oxySum += parseFloat(item["Prescriptions per 100,000"]); 
       });
-      //console.log(heroinSum)
+
+      // ... filter out the Hydrocodone values and sum them up for each state
+      var hydroData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearKey);
+      var hydroSum = 0.0; 
+      hydroData.forEach((item) => {
+        hydroSum += parseFloat(item["Prescriptions per 100,000"]); 
+      });
+
       // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
       // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
-      // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
-      var deathDict = {}; 
-      deathDict["Year"] = yearKey;
-      deathDict["Heroin"] = heroinSum; //another
-      // Finally, add this new dictionary to the array
-      deathData.push(deathDict); 
-    }
-    console.log("DeathData"); 
-    console.log(deathData);  
 
+      // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
+      var newDict = {}; 
+      newDict["Year"] = yearKey;
+      newDict["Oxy"] = oxySum;
+      newDict["Hydro"] = hydroSum; 
+
+      // Finally, add this new dictionary to the array
+      newData.push(newDict); 
+    }
+
+    // newData now contains an array of objects, where each object looks
+    // like this:
+    // { "Year": "2000",
+    //   "Oxy":  316.74734,
+    //   "Hydro": 247.3340 }
+
+    // Here's a look at newData
+    console.log("newData"); 
+    console.log(newData);
+
+     
   }); // end of d3.json sales
 }); // end of d3.json deaths
+
+
+
