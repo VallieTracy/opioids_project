@@ -20,6 +20,11 @@ footer {
     height: 400px;
 }
 
+#chartdivRadial {
+    width: 100%;
+    height: 500px;
+  }
+
 
 
 .leaflet-bottom{
@@ -36,8 +41,4 @@ span{
     margin: 5px;  
 }
 
-#chartdivRadial {
-    width: 100%;
-    height: 500px;
-  }
 

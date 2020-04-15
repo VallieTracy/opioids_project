@@ -8,7 +8,9 @@ import numpy as np
 import pandas as pd
 
 
+
 app = Flask(__name__)
+
 
 
 engine = create_engine('sqlite:///opioidsDB.db')
@@ -19,6 +21,8 @@ Base.prepare(engine, reflect=True)
 # table names are deaths and prescriptions, so I matched their variables with the names.
 deaths = Base.classes.deaths
 prescriptions = Base.classes.prescriptions
+
+
 
 
 @app.route('/')
@@ -73,6 +77,7 @@ def prescriptionRoute():
     for row in prescriptionsByState:
         presList.append({"State": row[0], 
                          "Prescriptions per 100,000": row[1],
+
 
                          "Fips": row[2],
                          "Oxycodone / Hydrocodone": row[3],

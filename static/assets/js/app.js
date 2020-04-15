@@ -20,7 +20,9 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 
 
+
 var deathsDB, salesDB;
+
 
 
 
@@ -175,6 +177,8 @@ d3.json(deathsUrl).then(function(deaths){
     // Determine the range of year by building an object 
     // and adding a key for each year. We've used a similar
     // strategy in class activities.
+
+
     var yearList = sales.map(s => s.Year);
     yearList.sort();   
     var yearDictionary = {}; 
@@ -478,22 +482,27 @@ d3.json(deathsUrl).then(function(deaths){
       {
         yearDictionary[year]++; 
       }
+
       else
       {
         yearDictionary[year] = 1; 
       }
     }); 
+
     // // Show the format of the yearDictionary
     console.log("yearDDictionary"); 
     console.log(yearDictionary); 
+
     // // Next, extract the prescription data for each drug type. Note that this currently
     // // addes together all of the prescription data for each state--so you can't currently
     // // filter by a particular state. Yes, it's possible to filter by state, but ... one
     // // thing at a time.
     var newData = [];
+
     //const yearKeys = Object.keys(yearDictionary);     
     // // For each year in the list of years ...
     for (const yearKey of yearKeys) {
+
     //   // ... filter out the Oxycodone values and sum them up for each state
       var natData = deaths.filter(d => d["Drug Type"] === "Natural and semi-synthetic opioids" && d["Year"] == yearKey);
       var natSum = 0.0;
@@ -501,28 +510,35 @@ d3.json(deathsUrl).then(function(deaths){
         if (isNaN(item["Deaths per 100,000"]) == false){
           natSum += item["Deaths per 100,000"];
         }
+
       });
+
     //   // ... filter out the Hydrocodone values and sum them up for each state
     //   var hydroData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearKey);
     //   var hydroSum = 0.0; 
     //   hydroData.forEach((item) => {
     //     hydroSum += parseFloat(item["Prescriptions per 100,000"]); 
     //   });
+
       console.log(`year: ${yearKey}, natSum: ${natSum}`); 
       //console.log(`year: ${yearDKey}, hydroSum: ${hydroSum}`); 
+
     //   // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
       var newDict = {}; 
       newDict["Year"] = yearKey;
       newDict["Nat"] = natSum;
     //   newDDict["Hydro"] = hydroSum; 
+
     //   // Finally, add this new dictionary to the array
       newData.push(newDict); 
     }
+
     // // newData now contains an array of objects, where each object looks
     // // like this:
     // // { "Year": "2000",
     // //   "Oxy":  316.74734,
     // //   "Hydro": 247.3340 }
+
     // // Here's a look at newData
     console.log("newData"); 
     console.log(newData);
@@ -643,3 +659,4 @@ function initDashboard(){
 
 // call initial landing page function to get landing page to display
 initDashboard();
+
