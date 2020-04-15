@@ -1,8 +1,6 @@
-
 var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
 
 // Creating map object
-
 var mymap = L.map('map')
   .setView([38.27, -95.86], 4);
 
@@ -17,12 +15,6 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: API_KEY
 }).addTo(mymap);
-
-
-
-
-var deathsDB, salesDB;
-
 
 
 
@@ -173,12 +165,9 @@ d3.json(deathsUrl).then(function(deaths){
 
     //LIZ SECTION
 
-
     // Determine the range of year by building an object 
     // and adding a key for each year. We've used a similar
     // strategy in class activities.
-
-
     var yearList = sales.map(s => s.Year);
     yearList.sort();   
     var yearDictionary = {}; 
@@ -193,11 +182,9 @@ d3.json(deathsUrl).then(function(deaths){
         yearDictionary[year] = 1; 
       }
     }); 
-
     // Show the format of the yearDictionary
     // console.log("yearDictionary"); 
     // console.log(yearDictionary); 
-
     var deathData = [];
     const yearKeys = Object.keys(yearDictionary);     
     // For each year in the list of years ...
@@ -213,136 +200,82 @@ d3.json(deathsUrl).then(function(deaths){
           heroinSum += item["Deaths per 100,000"];
         }
       });
+
+
+      //Liz code for nat and semi deaths
+
+
+        //console.log(deaths);
+        // ... filter out the Oxycodone values and sum them up for each state
+        var natSemiData = deaths.filter(d => d["Drug Type"] === "Natural and semi-synthetic opioids" && d["Year"] == yearKey);
+        //console.log(natSemiData);
+        var natSemiSum = 0.0;
+        natSemiData.forEach((item) => {
+          //console.log(item["Deaths per 100,000"])
+          if (isNaN(item["Deaths per 100,000"]) == false){
+            natSemiSum += item["Deaths per 100,000"];
+          }
+        });
+
+
+          //console.log(deaths);
+          // ... filter out the Oxycodone values and sum them up for each state
+          var syntheticData = deaths.filter(d => d["Drug Type"] === "Synthetic opioids" && d["Year"] == yearKey);
+          console.log(syntheticData);
+          var syntheticSum = 0.0;
+          syntheticData.forEach((item) => {
+            //console.log(item["Deaths per 100,000"])
+            if (isNaN(item["Deaths per 100,000"]) == false){
+              syntheticSum += item["Deaths per 100,000"];
+            }
+          });
+
+
       //console.log(heroinSum)
       // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
       // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
       // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
       var deathDict = {}; 
       deathDict["Year"] = yearKey;
-      deathDict["Heroin"] = heroinSum; //another
+      deathDict["Heroin"] = heroinSum; 
+      deathDict["NatSemi"] = natSemiSum;
+      deathDict["Synthetic"]= syntheticSum;
+      
+
+      // Liz code trying to add deaths from opioids
+      //deathDict["NatSemi"] = natSemiSum;
+
       // Finally, add this new dictionary to the array
       deathData.push(deathDict); 
     }
-    console.log("DeathData"); 
+    //console.log("DeathData"); 
     console.log(deathData);  
-
 
 
     //Liz Graph
 
+
     var chart = am4core.create("chartdiv", am4charts.XYChart);
-    chart.data = [{
-      "year": "1994",
-      "cars": 1587,
-      "motorcycles": 650,
-      "bicycles": 121
-    }, {
-      "year": "1995",
-      "cars": 1567,
-      "motorcycles": 683,
-      "bicycles": 146
-    }, {
-      "year": "1996",
-      "cars": 1617,
-      "motorcycles": 691,
-      "bicycles": 138
-    }, {
-      "year": "1997",
-      "cars": 1630,
-      "motorcycles": 642,
-      "bicycles": 127
-    }, {
-      "year": "1998",
-      "cars": 1660,
-      "motorcycles": 699,
-      "bicycles": 105
-    }, {
-      "year": "1999",
-      "cars": 1683,
-      "motorcycles": 721,
-      "bicycles": 109
-    }, {
-      "year": "2000",
-      "cars": 1691,
-      "motorcycles": 737,
-      "bicycles": 112
-    }, {
-      "year": "2001",
-      "cars": 1298,
-      "motorcycles": 680,
-      "bicycles": 101
-    }, {
-      "year": "2002",
-      "cars": 1275,
-      "motorcycles": 664,
-      "bicycles": 97
-    }, {
-      "year": "2003",
-      "cars": 1246,
-      "motorcycles": 648,
-      "bicycles": 93
-    }, {
-      "year": "2004",
-      "cars": 1318,
-      "motorcycles": 697,
-      "bicycles": 111
-    }, {
-      "year": "2005",
-      "cars": 1213,
-      "motorcycles": 633,
-      "bicycles": 87
-    }, {
-      "year": "2006",
-      "cars": 1199,
-      "motorcycles": 621,
-      "bicycles": 79
-    }, {
-      "year": "2007",
-      "cars": 1110,
-      "motorcycles": 210,
-      "bicycles": 81
-    }, {
-      "year": "2008",
-      "cars": 1165,
-      "motorcycles": 232,
-      "bicycles": 75
-    }, {
-      "year": "2009",
-      "cars": 1145,
-      "motorcycles": 219,
-      "bicycles": 88
-    }, {
-      "year": "2010",
-      "cars": 1163,
-      "motorcycles": 201,
-      "bicycles": 82
-    }, {
-      "year": "2011",
-      "cars": 1180,
-      "motorcycles": 285,
-      "bicycles": 87
-    }, {
-      "year": "2012",
-      "cars": 1159,
-      "motorcycles": 277,
-      "bicycles": 71
-    }];
+    chart.data = deathData; 
+
+
+
     chart.dateFormatter.inputDateFormat = "yyyy";
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 60;
     dateAxis.startLocation = 0.5;
     dateAxis.endLocation = 0.5;
     dateAxis.baseInterval = {
-      timeUnit: "year",
+      timeUnit: "Year",
       count: 1
     }
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.tooltip.disabled = true;
     var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.dateX = "year";
-    series.name = "cars";
-    series.dataFields.valueY = "cars";
-    series.tooltipHTML = "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>{valueY.value}</b></span>";
+    series.dataFields.dateX = "Year";
+    series.name = "Heroin";
+    series.dataFields.valueY = "Heroin";
+    //series.tooltipHTML = "<img src='C:\Users\lizba\Desktop";
     series.tooltipText = "[#000]{valueY.value}[/]";
     series.tooltip.background.fill = am4core.color("#FFF");
     series.tooltip.getStrokeFromObject = true;
@@ -351,10 +284,12 @@ d3.json(deathsUrl).then(function(deaths){
     series.fillOpacity = 0.6;
     series.strokeWidth = 2;
     series.stacked = true;
+    
+    
     var series2 = chart.series.push(new am4charts.LineSeries());
-    series2.name = "motorcycles";
-    series2.dataFields.dateX = "year";
-    series2.dataFields.valueY = "motorcycles";
+    series2.name = "NatSemi";
+    series2.dataFields.dateX = "Year";
+    series2.dataFields.valueY = "NatSemi";
     series2.tooltipHTML = "<img src='https://www.amcharts.com/lib/3/images/motorcycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>{valueY.value}</b></span>";
     series2.tooltipText = "[#000]{valueY.value}[/]";
     series2.tooltip.background.fill = am4core.color("#FFF");
@@ -365,10 +300,12 @@ d3.json(deathsUrl).then(function(deaths){
     series2.fillOpacity = 0.6;
     series2.stacked = true;
     series2.strokeWidth = 2;
+    
+    
     var series3 = chart.series.push(new am4charts.LineSeries());
-    series3.name = "bicycles";
-    series3.dataFields.dateX = "year";
-    series3.dataFields.valueY = "bicycles";
+    series3.name = "Synthetic";
+    series3.dataFields.dateX = "Year";
+    series3.dataFields.valueY = "Synthetic";
     series3.tooltipHTML = "<img src='https://www.amcharts.com/lib/3/images/bicycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>{valueY.value}</b></span>";
     series3.tooltipText = "[#000]{valueY.value}[/]";
     series3.tooltip.background.fill = am4core.color("#FFF");
@@ -383,6 +320,7 @@ d3.json(deathsUrl).then(function(deaths){
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
     chart.scrollbarX = new am4core.Scrollbar();
+    
     // Add a legend
     chart.legend = new am4charts.Legend();
     chart.legend.position = "top";
@@ -392,7 +330,7 @@ d3.json(deathsUrl).then(function(deaths){
     range.endDate = new Date(2003, 0, 1);
     range.axisFill.fill = chart.colors.getIndex(7);
     range.axisFill.fillOpacity = 0.2;
-    range.label.text = "Fines for speeding increased";
+    //range.label.text = "Fines for speeding increased";
     range.label.inside = true;
     range.label.rotation = 90;
     range.label.horizontalCenter = "right";
@@ -402,11 +340,12 @@ d3.json(deathsUrl).then(function(deaths){
     range2.grid.stroke = chart.colors.getIndex(7);
     range2.grid.strokeOpacity = 0.6;
     range2.grid.strokeDasharray = "5,2";
-    range2.label.text = "Motorcycle fee introduced";
+    //range2.label.text = "Motorcycle fee introduced";
     range2.label.inside = true;
     range2.label.rotation = 90;
     range2.label.horizontalCenter = "right";
     range2.label.verticalCenter = "bottom";
+
     // end am4core.ready
 
     //END LIZ SECTION
@@ -467,81 +406,9 @@ d3.json(deathsUrl).then(function(deaths){
     //   "Oxy":  316.74734,
     //   "Hydro": 247.3340 }
     // Here's a look at newData
-    console.log("newSData"); 
-    console.log(newSData);
-    // -------------------------------------------------------------------------------------------------------------
-    // DOM's CODE, BUT FOR DEATHS AS OPPOSED TO SALES
-    // Determine the range of year by building an object 
-    // and adding a key for each year. We've used a similar
-    // strategy in class activities.
-    var yearList = deaths.map(d => d.Year);
-    yearList.sort();   
-    var yearDictionary = {}; 
-    yearList.forEach((year) => {
-      if (year in yearDictionary)
-      {
-        yearDictionary[year]++; 
-      }
 
-      else
-      {
-        yearDictionary[year] = 1; 
-      }
-    }); 
-
-    // // Show the format of the yearDictionary
-    console.log("yearDDictionary"); 
-    console.log(yearDictionary); 
-
-    // // Next, extract the prescription data for each drug type. Note that this currently
-    // // addes together all of the prescription data for each state--so you can't currently
-    // // filter by a particular state. Yes, it's possible to filter by state, but ... one
-    // // thing at a time.
-    var newData = [];
-
-    //const yearKeys = Object.keys(yearDictionary);     
-    // // For each year in the list of years ...
-    for (const yearKey of yearKeys) {
-
-    //   // ... filter out the Oxycodone values and sum them up for each state
-      var natData = deaths.filter(d => d["Drug Type"] === "Natural and semi-synthetic opioids" && d["Year"] == yearKey);
-      var natSum = 0.0;
-      natData.forEach((item) => {
-        if (isNaN(item["Deaths per 100,000"]) == false){
-          natSum += item["Deaths per 100,000"];
-        }
-
-      });
-
-    //   // ... filter out the Hydrocodone values and sum them up for each state
-    //   var hydroData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearKey);
-    //   var hydroSum = 0.0; 
-    //   hydroData.forEach((item) => {
-    //     hydroSum += parseFloat(item["Prescriptions per 100,000"]); 
-    //   });
-
-      console.log(`year: ${yearKey}, natSum: ${natSum}`); 
-      //console.log(`year: ${yearDKey}, hydroSum: ${hydroSum}`); 
-
-    //   // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
-      var newDict = {}; 
-      newDict["Year"] = yearKey;
-      newDict["Nat"] = natSum;
-    //   newDDict["Hydro"] = hydroSum; 
-
-    //   // Finally, add this new dictionary to the array
-      newData.push(newDict); 
-    }
-
-    // // newData now contains an array of objects, where each object looks
-    // // like this:
-    // // { "Year": "2000",
-    // //   "Oxy":  316.74734,
-    // //   "Hydro": 247.3340 }
-
-    // // Here's a look at newData
-    console.log("newData"); 
-    console.log(newData);
+    // console.log("newData"); 
+    // console.log(newData);
     // END OF DOM'S CODE BUT DUPLICATED FOR THE DEATHS AS OPPOSED TO SALES
     // -------------------------------------------------------------------------------------
 
@@ -549,63 +416,95 @@ d3.json(deathsUrl).then(function(deaths){
     // Vallie's radial chart
     //Chart code 
     /* Create chart instance */
-    var chart = am4core.create("chartdivRadial", am4charts.RadarChart);
-    /* Add data */
-    chart.data = [{
-      "country": "Lithuania",
-      "litres": 501,
-      "units": 250
-    }, {
-      "country": "Czech Republic",
-      "litres": 301,
-      "units": 222
-    }, {
-      "country": "Ireland",
-      "litres": 266,
-      "units": 179
-    }, {
-      "country": "Germany",
-      "litres": 165,
-      "units": 298
-    }, {
-      "country": "Australia",
-      "litres": 139,
-      "units": 299
-    }, {
-      "country": "Austria",
-      "litres": 336,
-      "units": 185
-    }, {
-      "country": "UK",
-      "litres": 290,
-      "units": 150
-    }, {
-      "country": "Belgium",
-      "litres": 325,
-      "units": 382
-    }, {
-      "country": "The Netherlands",
-      "litres": 40,
-      "units": 172
-    }];
-    /* Create axes */
-    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "country";
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    /* Create and configure series */
-    var series = chart.series.push(new am4charts.RadarSeries());
-    series.dataFields.valueY = "litres";
-    series.dataFields.categoryX = "country";
-    series.name = "Sales";
-    series.strokeWidth = 3;
-    series.zIndex = 2;
-    var series2 = chart.series.push(new am4charts.RadarColumnSeries());
-    series2.dataFields.valueY = "units";
-    series2.dataFields.categoryX = "country";
-    series2.name = "Units";
-    series2.strokeWidth = 0;
-    series2.columns.template.fill = am4core.color("#CDA2AB");
-    series2.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
+    am4core.ready(function() {
+
+      // Themes begin
+      am4core.useTheme(am4themes_animated);
+      // Themes end
+      
+      /* Create chart instance */
+      var chart = am4core.create("chartdivRadial", am4charts.RadarChart);
+      
+      // var data = [];
+      // var value1 = 500;
+      // var value2 = 600;
+      
+      // for(var i = 0; i < 12; i++){
+      //   let date = new Date();
+      //   date.setMonth(i, 1);
+      //   value1 -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
+      //   value2 -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
+      //   data.push({date:date, value1:value1, value2:value2})
+      // }
+      
+      chart.data = newSData;
+      
+      /* Create axes */
+      var categoryAxis = chart.xAxes.push(new am4charts.DateAxis());
+      
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.extraMin = 0.2;
+      valueAxis.extraMax = 0.2;
+      valueAxis.tooltip.disabled = true;
+      
+      /* Create and configure series */
+      var series1 = chart.series.push(new am4charts.RadarSeries());
+      series1.dataFields.valueY = "Oxy";
+      series1.dataFields.dateX = "Year";
+      series1.strokeWidth = 3;
+      series1.tooltipText = "{name}\nSales/100k: {valueY}";
+      series1.name = "Oxycodone";
+      series1.bullets.create(am4charts.CircleBullet);
+      series1.dataItems.template.locations.dateX = 0.5;
+      
+      var series2 = chart.series.push(new am4charts.RadarColumnSeries());
+      series2.dataFields.valueY = "Hydro";
+      series2.dataFields.dateX = "Year";
+      series2.strokeWidth = 0.5;
+      series2.tooltipText = "{name}\nSales/100k: {valueY}";
+      series2.name = "Hydrocodone";
+      series2.columns.template.fill = am4core.color("#CDA2AB");
+      series2.dataItems.template.locations.dateX = 0.5;
+      
+      //chart.scrollbarX = new am4core.Scrollbar();
+      //chart.scrollbarY = new am4core.Scrollbar();
+      
+      chart.cursor = new am4charts.RadarCursor();
+      
+      chart.legend = new am4charts.Legend();
+      chart.legend.position = "bottom";
+      
+       
+      
+      }); // end am4core.ready()
+
+
+
+    // MORE BASIC CHART
+    // var chart = am4core.create("chartdivRadial", am4charts.RadarChart);
+    // /* Add data */
+    // chart.data = newSData;
+    
+    // /* Create axes */
+    // var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    // categoryAxis.dataFields.category = "Year";
+    // var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    // /* Create and configure series */
+    // var series = chart.series.push(new am4charts.RadarSeries());
+    // series.dataFields.valueY = "Oxy";
+    // series.dataFields.categoryX = "Year";
+    // series.name = "Oxy";
+    // series.strokeWidth = 3;
+    // series.zIndex = 2;
+    // var series2 = chart.series.push(new am4charts.RadarColumnSeries());
+    // series2.dataFields.valueY = "Hydro";
+    // series2.dataFields.categoryX = "Year";
+    // series2.name = "Hydro";
+    // series2.strokeWidth = 0;
+    // series2.columns.template.fill = am4core.color("#CDA2AB");
+    // series2.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
+
+    // chart.legend = new am4charts.Legend();
 
     
   }) //end of sales json
@@ -656,7 +555,5 @@ function initDashboard(){
 
 }
 
-
 // call initial landing page function to get landing page to display
 initDashboard();
-

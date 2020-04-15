@@ -8,9 +8,7 @@ import numpy as np
 import pandas as pd
 
 
-
 app = Flask(__name__)
-
 
 
 engine = create_engine('sqlite:///opioidsDB.db')
@@ -22,9 +20,6 @@ Base.prepare(engine, reflect=True)
 deaths = Base.classes.deaths
 prescriptions = Base.classes.prescriptions
 
-
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -34,27 +29,19 @@ def index():
 def about():
     return render_template('about.html')
 
-# Route to death dataset page
+# Route to a dataset page
 @app.route('/deathsData')
 def deathsData():
     return render_template('deathsData.html')
 
-# Route to sales dataset page
-@app.route('/salesData')
-def salesData():
-    return render_template('salesData.html')
-
 @app.route('/api/v1.0/deathTest')
 def deathRoute():
     session = Session(engine)
-
     deathByState = session.query(deaths.Location, deaths.Data, deaths.Fips, deaths.Drug_Type, deaths.TimeFrame).all()
-
     session.close()
 
-    deathList=[]
+    deathList = []
     for row in deathByState:
-
 
         deathList.append({"State": row[0], 
                           "Deaths per 100,000": row [1],
@@ -63,7 +50,6 @@ def deathRoute():
                           "Year": row[4]})
 
     return jsonify(deathList)
-
 
 
 
@@ -82,7 +68,6 @@ def prescriptionRoute():
                          "Year": row[4]})
 
     return jsonify(presList)
-
 
 
 if __name__ == '__main__':
