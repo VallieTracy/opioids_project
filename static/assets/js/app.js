@@ -61,7 +61,7 @@ var deathsDB, salesDB;
 
 
 
-//Mellisa's code to fetch sythetic opiods death
+//Liz's code to fetch sythetic opiods death
 d3.json(deathsUrl).then(function(deaths){
   d3.json(salesUrl).then(function(sales){
 
@@ -69,15 +69,19 @@ d3.json(deathsUrl).then(function(deaths){
     salesDB = sales;
 const minYear = "2000";
 const maxYear = "2018";
-for (i = minYear; i<maxYear; i++){
+
+for (var a = 0; a<statesData.features.length; a++){
+  var stateName = statesData.features[a].properties.name;
+for (i = minYear; i<=maxYear; i++){
  
   thisYear = deaths.filter(d=>d.Year === i);
   
 console.log(thisYear);
-  
-  synthetic = thisYear.filter(dt=>dt["Drug Type"] === "Synthetic opioids");
-     semi = thisYear.filter(dt=>dt["Drug Type"] === "Natural and semi-synthetic opioids");
-      Heroin = thisYear.filter(dt=>dt["Drug Type"] === "Heroin");
+  //year = 
+  //location= thisYear.filter(dt=>dt["State"] === " ");
+    synthetic = thisYear.filter(dt=>dt["Drug Type"] === "Synthetic opioids");
+      semi = thisYear.filter(dt=>dt["Drug Type"] === "Natural and semi-synthetic opioids");
+        Heroin = thisYear.filter(dt=>dt["Drug Type"] === "Heroin");
   //console.log(synthetic);
   
   var syntheticDeaths=[];
@@ -99,59 +103,16 @@ console.log(thisYear);
   }
   //console.log(heroinDeaths);
 
+  var object = {"Total Synthetic": syntheticDeaths,"Total Semi":semiDeaths, 
+  "Total Heroin": heroinDeaths, "Year":i, "States": stateName} 
 
 
-
-  
-  var object = {"Total Synthetic": syntheticDeaths,"Total Semi":semiDeaths, "Total Heroin": heroinDeaths}
   console.log(object);
+  }
+
 }
   })
 });
-
-
-
-
-// this is printing out all opiods deaths in each state in the year 2000
-// tring to get multiple drugs to print out but unsuccesful
-// d3.json(deathsUrl).then(function(deaths){
-//   d3.json(salesUrl).then(function(sales){
-
-//     deathsDB = deaths;
-//     salesDB = sales;
-  
-
-//     var minYear = 2000;
-//     var maxYear = 2018;
-
-
-// for (var i = 0; i < deathsDB.length; i++) {
-//   if ((deaths[i]["Drug Type"] === "All opioids") && (deaths[i]["Year"] === "2000"))  
-
-//   for (var i = 0; i < deathsDB.length; i++) {
-//     if ((deaths[i]["Drug Type"] === "Heroin") && (deaths[i]["Year"] === "2000"))  
-  
-//   {
-//     console.log("STATE:", deaths[i]["State"]);
-//     console.log("All Opioid Deaths:", deaths[i]["Deaths per 100,000"]);
-//     console.log("All Heroin Deaths:", deaths[i]["Deaths per 100,000"])
-//   }
-// }}
-
-// })
-
-  
-
-// });
-
-
-
-  
-
-
-  
-
-
 
 // })
 // var chart = am4core.create("chartdiv", am4charts.XYChart);
@@ -347,3 +308,42 @@ console.log(thisYear);
 
 // // end am4core.ready
 
+// const minYear = "2000";
+//   const maxYear = "2018";
+//   for (var a = 0; a<statesData.features.length; a++){
+//     var stateName = statesData.features[a].properties.name;
+//     for (i = minYear; i<maxYear; i++){
+    
+//       thisYear = deaths.filter(d=>d.Year === i);
+      
+//     // console.log(thisYear);
+//       synthetic = thisYear.filter(dt=>dt["Drug Type"] === "Synthetic opioids");
+//       semi = thisYear.filter(dt=>dt["Drug Type"] === "Natural and semi-synthetic opioids");
+//           Heroin = thisYear.filter(dt=>dt["Drug Type"] === "Heroin");
+//       //console.log(synthetic);
+      
+//       var syntheticDeaths=[];
+//       for (var j = 0; j<synthetic.length; j++){
+//         syntheticDeaths.push(synthetic[j]["Deaths per 100,000"]);
+//       }
+//       // console.log(syntheticDeaths);
+//       var semiDeaths=[];
+//       for (var j = 0; j<semi.length; j++){
+//         semiDeaths.push(semi[j]["Deaths per 100,000"]);
+//       }
+      
+//       var heroinDeaths=[];
+//       for (var j = 0; j<Heroin.length; j++){
+//         heroinDeaths.push(Heroin[j]["Deaths per 100,000"]);
+//       }
+//       //console.log(heroinDeaths);
+//       // var states = [];
+//       // for (var j = 0; j<semi.length; j++){
+//       //   states.push(theState[j]["test"]);
+//       // }
+      
+//       var object = {"Total Synthetic": syntheticDeaths,"Total Semi":semiDeaths, 
+//       "Total Heroin": heroinDeaths, "Year":i, "States": stateName};
+//       console.log(object);
+//     }
+//   }
