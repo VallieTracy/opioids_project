@@ -20,7 +20,6 @@ Base.prepare(engine, reflect=True)
 deaths = Base.classes.deaths
 prescriptions = Base.classes.prescriptions
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -45,7 +44,7 @@ def deathRoute():
     for row in deathByState:
 
         deathList.append({"State": row[0], 
-                          "Deaths per 100,000": row[1],
+                          "Deaths per 100,000": row [1],
                           "Fips": row[2],
                           "Drug Type": row[3],
                           "Year": row[4]})
