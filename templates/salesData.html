@@ -8,16 +8,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Opioids Data</title>
+    <title>Prescription Sales</title>
 </head>
 
-<body>
+<body style="background-color: burlywood;">
 
     <!-- Table Section -->
     <div class="container">
       <!-- **Left off box class so it's black table on gray background (no white) -->
       <!-- NOTE: The above might apply to the style.css, which I haven't dinked around with yet except for the footer -->
-        <h1 class="title">Opioid Sales Raw Data</h1>
+        <div class="box border border-dark">
+        <h1 class="title">Prescription Opioid Sales Raw Data</h1>
         <hr>
         <h3>This is our raw data that we used to visualize prescription opioid sales for all 50 states, spanning 20 years. 
             In cleaning our data for our JSON, we removed all 'N/A' values and...
@@ -25,11 +26,11 @@
         <p>Feel free to utilize the json for your own purposes.  Give attribution to Liz Jones, Melissa Keller, & Vallie Tracy.
             You can find the cleaned data in JSON format <a href="http://127.0.0.1:5000/api/v1.0/prescriptionTest">here.</a>
         </p>
-        
+        </div>
         <br>
   
         <!-- the table for opioidPrescriptionSales.csv -->
-        <table border="1" class="dataframe table">
+        <table border="1" class="table table-borderless" style="background-color: white;">
             <thead>
               <tr style="text-align: right;">
                 <th></th>
