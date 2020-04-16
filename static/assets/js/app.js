@@ -72,7 +72,6 @@ legend.onAdd = function(mymap){
   return div;
 };
 
-
 legend.addTo(mymap);
 
 //filters for the year that the user has selected and colors the map based on deaths from all opioids.
@@ -136,7 +135,6 @@ function yearUpdate(year){
       geojson.resetStyle(e.target);
     }
 
-  
     function onEachFeature(feature, layer) {
       layer.on({
           mouseover: highlightFeature,
@@ -153,7 +151,6 @@ function yearUpdate(year){
   });
 }
 // end yearUpdate Function
-
 
 
 d3.json(deathsUrl).then(function(deaths){
