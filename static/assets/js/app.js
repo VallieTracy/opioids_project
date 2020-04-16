@@ -1,5 +1,8 @@
+
 var salesRadialData;
 var stateSelector =  d3.select("#selDataset");
+var deathsData;
+
 
 var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
 
@@ -53,24 +56,33 @@ function choroColor(d){
   return color;
 }
 
-//adding legend to the map
+// //adding legend to the map
 var legend = L.control({position: "bottomleft"});
 legend.onAdd = function(mymap){
   var div = L.DomUtil.create("div", "info legend"),
-  limits = [0, 3, 8, 14, 20, 27, 34, 40]
-  div.innerHTML += '<p>Deaths from All Opioids, per 100,000</p>'
-  for(var i =0; i<limits.length; i++){
+  limits = [0, 3, 8, 14, 20, 27, 34, 50]
 
-    div.innerHTML += '<span style = background-color:' +choroColor(limits[i]+1) + '>' +
-    limits[i]+(limits[i+1] ? '&ndash;' + limits[i+1] : ' + </span>');
+  function colorLegend(array){
+    for(var i =0; i<array.length; i++){
+      div.innerHTML += '<span style = background-color:' + choroColor(array[i]+1) + '> </span>';
+    }
+    return div.innerHTML;
   }
+
+  var legendInfo = "<p>Deaths from All Opioids (per 100,000)</p>"+
+    "<span>" + limits[0] + "&nbsp;" + colorLegend(limits) + "&nbsp;" + limits[limits.length -1] + "</span>";
+
+  div.innerHTML = legendInfo;
+
   return div;
 };
+
+
 legend.addTo(mymap);
 
 //filters for the year that the user has selected and colors the map based on deaths from all opioids.
 function yearUpdate(year){
-  d3.json(deathsUrl).then(function(data){
+  let data = deathsData;
 
     var allOpioids = [];
     for (var i = 0; i < data.length; i++){
@@ -120,7 +132,7 @@ function yearUpdate(year){
           color: '#666',
           dashArray: '',
           fillOpacity: 0.7
-      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <h7> All opioid deaths per 100,000: " + deathsValue + "</h7>");
+      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + deathsValue + " Opioid deaths per 100,000 </p>");
   
       if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
           layer.bringToFront();
@@ -146,9 +158,8 @@ function yearUpdate(year){
   
     //end highlight on mouse over
 
-  })
-
 }
+// end yearUpdate Function
 
 d3.json(deathsUrl).then(function(deaths){
   d3.json(salesUrl).then(function(sales){
@@ -347,8 +358,8 @@ d3.json(deathsUrl).then(function(deaths){
     range2.label.verticalCenter = "bottom";
   }) //end of sales json
 
-
 }); //end of death json
+
 
 function radialChart(curState) {
   var chartTitle = d3.select("#radialChartTitle").text(`${curState} Total Sales Per 100,000 People`)
@@ -475,6 +486,7 @@ function initDashboard(){
     radialChart("Alabama");
   });  
   d3.json(deathsUrl).then((deaths)=>{
+    deathsData = deaths;
 
     var stateName = [];
     for (var a = 0; a<statesData.features.length; a++){
