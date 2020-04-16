@@ -128,7 +128,7 @@ function yearUpdate(year){
           color: '#666',
           dashArray: '',
           fillOpacity: 0.7
-      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\">" + deathsValue + " Opioid deaths per 100,000 </p>");
+      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + deathsValue + " Opioid deaths per 100,000 </p>");
   
       if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
           layer.bringToFront();
@@ -157,6 +157,7 @@ function yearUpdate(year){
   })
 
 }
+// end yearUpdate Function
 
 
 d3.json(deathsUrl).then(function(deaths){
