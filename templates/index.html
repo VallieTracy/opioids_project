@@ -38,36 +38,33 @@
         <div id="map"></div>
       </div>
       <div class ="col-md-4">
+
         <h3>Opioid Deaths and Prescriptions in the United States</h3>
 
         <p>To explore the stacked area and radial charts. Select a state.</p>
         <h6>Select State</h6>
-        <select id ="selDataset" onchange="optionChanged(this.value)"></select>
-        <p>To explore the map. Select a year and then click on a state.</p>
+          <select id ="selDataset"></select>
+        <p>To explore the map. Select a year.</p>
         <h6>Select Year</h6>
-        <select id ="yrDataset" onchange="optionChanged(this.value)"></select>
+          <select id ="yrDataset" onchange="optionChanged(this.value)"></select>
       </div>
     </div>
-    <div class ="row">
+    <div class ="row mt-5 mb-5 pt-5 pb-5">
       <div class = "col-md-6">
         <div id="chartdiv"></div>
       </div>
       <div class = "col-md-6">
+        <h4 class = "text-center" id = "radialChartTitle">Total Sales Per 100,000 People</h4>
         <div id="chartdivRadial"></div>
       </div>
-      
     </div>
   </div>
   
 
-    <!-- Footer Section -->
-    <!-- <footer>
-      <div class = "row">
-        <div class = "col-md-12">
-          <div class="footer">Copyright &copy; Liz Jones, Melissa Keller, & Vallie Tracy 2020</div>
-        </div>
-      </div>
-    </footer>  -->
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer">Copyright &copy; Liz Jones, Melissa Keller, & Vallie Tracy 2020</div>
+  </footer>
 
     <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
