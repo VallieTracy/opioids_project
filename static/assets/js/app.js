@@ -221,7 +221,7 @@ d3.json(deathsUrl).then(function(deaths){
           //console.log(deaths);
           // ... filter out the Oxycodone values and sum them up for each state
           var syntheticData = deaths.filter(d => d["Drug Type"] === "Synthetic opioids" && d["Year"] == yearKey);
-          console.log(syntheticData);
+          
           var syntheticSum = 0.0;
           syntheticData.forEach((item) => {
             //console.log(item["Deaths per 100,000"])
@@ -249,7 +249,7 @@ d3.json(deathsUrl).then(function(deaths){
       deathData.push(deathDict); 
     }
     //console.log("DeathData"); 
-    console.log(deathData);  
+     
 
 
     //Liz Graph
@@ -354,9 +354,12 @@ d3.json(deathsUrl).then(function(deaths){
     // Determine the range of year by building an object 
     // and adding a key for each year. We've used a similar
     // strategy in class activities.
+    console.log("salesDB:", sales);
     var yearSList = sales.map(s => s.Year);
+    console.log("yearSList:", yearSList);
     yearSList.sort();   
     var yearSDictionary = {}; 
+    console.log("yearSDictionary:", yearSDictionary);
     yearSList.forEach((year) => {
       if (year in yearSDictionary)
       {
@@ -368,14 +371,15 @@ d3.json(deathsUrl).then(function(deaths){
       }
     }); 
     // Show the format of the yearDictionary
-    console.log("yearSDictionary"); 
-    console.log(yearSDictionary); 
+    console.log("yearSDictionary:", yearSDictionary); 
     // Next, extract the prescription data for each drug type. Note that this currently
     // addes together all of the prescription data for each state--so you can't currently
     // filter by a particular state. Yes, it's possible to filter by state, but ... one
     // thing at a time.
     var newSData = [];
-    const yearSKeys = Object.keys(yearSDictionary);     
+    console.log("newSData:", newSData);
+    const yearSKeys = Object.keys(yearSDictionary);  
+    console.log("const yearSKeys:", yearSKeys);   
     // For each year in the list of years ...
     for (const yearSKey of yearSKeys) {
       // ... filter out the Oxycodone values and sum them up for each state
@@ -390,8 +394,8 @@ d3.json(deathsUrl).then(function(deaths){
       hydroData.forEach((item) => {
         hydroSum += item["Prescriptions per 100,000"]; 
       });
-      // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
-      // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
+      console.log(`year: ${yearSKey}, oxySum: ${oxySum}`); 
+      console.log(`year: ${yearSKey}, hydroSum: ${hydroSum}`); 
       // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
       var newSDict = {}; 
       newSDict["Year"] = yearSKey;
@@ -399,6 +403,7 @@ d3.json(deathsUrl).then(function(deaths){
       newSDict["Hydro"] = hydroSum; 
       // Finally, add this new dictionary to the array
       newSData.push(newSDict); 
+      console.log("LASTLY, newSDict:", newSDict);
     }
     // newData now contains an array of objects, where each object looks
     // like this:
@@ -411,35 +416,13 @@ d3.json(deathsUrl).then(function(deaths){
     // console.log(newData);
     // END OF DOM'S CODE BUT DUPLICATED FOR THE DEATHS AS OPPOSED TO SALES
     // -------------------------------------------------------------------------------------
-    console.log("newSData:", newSData);
+    
 
     // Working to duplicate what dom did, but looking at states.  BELOW: ************ trying to duplicate states ***********************************
     //VALLIE SECTION
     // Determine the range of year by building an object 
     // and adding a key for each year. We've used a similar
     // strategy in class activities.
-    var stateVList = sales.map(s => s.State);
-    console.log("stateVList:", stateVList);
-    var stateVDictionary = {};
-    stateVList.forEach((state) => {
-      if (state in stateVDictionary)
-      {
-        stateVDictionary[state]++; 
-      }
-      else
-      {
-        stateVDictionary[state] = 1; 
-      }
-    }); 
-    console.log("stateVDictionary:", stateVDictionary);
-    // var states = [];
-    // sales.forEach((state) => {
-    //   if(!states.includes(state.State)) {
-    //     states.push(state.State);
-    //   }
-    // });
-    // console.log("states:", states);
-    
     // var yearSList = sales.map(s => s.Year);
     // yearSList.sort();   
     // var yearSDictionary = {}; 
@@ -452,17 +435,16 @@ d3.json(deathsUrl).then(function(deaths){
     //   {
     //     yearSDictionary[year] = 1; 
     //   }
-    // });
+    // }); 
     // Show the format of the yearDictionary
-    console.log("yearVDictionary:"); 
-    console.log(yearVDictionary); 
-    // // Next, extract the prescription data for each drug type. Note that this currently
-    // // addes together all of the prescription data for each state--so you can't currently
-    // // filter by a particular state. Yes, it's possible to filter by state, but ... one
-    // // thing at a time.
-    var newVData = [];
-    const yearVKeys = Object.keys(yearVDictionary);  
-    console.log("keys:", yearVKeys);   
+    // console.log("yearSDictionary"); 
+    // console.log(yearSDictionary); 
+    // Next, extract the prescription data for each drug type. Note that this currently
+    // addes together all of the prescription data for each state--so you can't currently
+    // filter by a particular state. Yes, it's possible to filter by state, but ... one
+    // thing at a time.
+    // var newSData = [];
+    // const yearSKeys = Object.keys(yearSDictionary);     
     // For each year in the list of years ...
     // for (const yearSKey of yearSKeys) {
     //   // ... filter out the Oxycodone values and sum them up for each state
@@ -471,22 +453,22 @@ d3.json(deathsUrl).then(function(deaths){
     //   oxyData.forEach((item) => {
     //     oxySum += item["Prescriptions per 100,000"]; 
     //   });
-      // ... filter out the Hydrocodone values and sum them up for each state
-      // var hydroData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearSKey);
-      // var hydroSum = 0.0; 
-      // hydroData.forEach((item) => {
-      //   hydroSum += item["Prescriptions per 100,000"]; 
-      // });
-      // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
-      // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
-      // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
-      // var newSDict = {}; 
-      // newSDict["Year"] = yearSKey;
-      // newSDict["Oxy"] = oxySum;
-      // newSDict["Hydro"] = hydroSum; 
-      // Finally, add this new dictionary to the array
-     // newSData.push(newSDict); 
-    //}
+    //   // ... filter out the Hydrocodone values and sum them up for each state
+    //   var hydroData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearSKey);
+    //   var hydroSum = 0.0; 
+    //   hydroData.forEach((item) => {
+    //     hydroSum += item["Prescriptions per 100,000"]; 
+    //   });
+    //   // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
+    //   // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
+    //   // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
+    //   var newSDict = {}; 
+    //   newSDict["Year"] = yearSKey;
+    //   newSDict["Oxy"] = oxySum;
+    //   newSDict["Hydro"] = hydroSum; 
+    //   // Finally, add this new dictionary to the array
+    //   newSData.push(newSDict); 
+    // }
     // newData now contains an array of objects, where each object looks
     // like this:
     // { "Year": "2000",
@@ -497,8 +479,6 @@ d3.json(deathsUrl).then(function(deaths){
     // console.log("newData"); 
     // console.log(newData);
     // END OF DOM'S CODE BUT DUPLICATED FOR THE DEATHS AS OPPOSED TO SALES
-    // -------------------------------------------------------------------------------------
-    //console.log("newSData:", newSData);
 
     // END of me trying to duplicate what dom did, but with states      ***** end of duplicating states ******************************
 
