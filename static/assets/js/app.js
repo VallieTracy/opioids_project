@@ -1,3 +1,7 @@
+
+
+var deathsData;
+
 var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
 
 // Creating map object
@@ -78,7 +82,7 @@ legend.addTo(mymap);
 
 //filters for the year that the user has selected and colors the map based on deaths from all opioids.
 function yearUpdate(year){
-  d3.json(deathsUrl).then(function(data){
+  let data = deathsData;
 
     var allOpioids = [];
     for (var i = 0; i < data.length; i++){
@@ -153,8 +157,6 @@ function yearUpdate(year){
     }).addTo(mymap);
   
     //end highlight on mouse over
-
-  })
 
 }
 // end yearUpdate Function
@@ -537,6 +539,7 @@ function initDashboard(){
   var stateSelector = d3.select("#selDataset");
 
   d3.json(deathsUrl).then((deaths)=>{
+    deathsData = deaths;
     var stateName = [];
     for (var a = 0; a<statesData.features.length; a++){
       stateName.push(statesData.features[a].properties.name);
