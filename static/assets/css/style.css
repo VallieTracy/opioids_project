@@ -35,17 +35,17 @@ body{
 
 /* Chart & Graph CSS */
 #map{
-    height: 400px;
+    height: 350px;
 }
 
 #chartdivRadial {
     width: 100%;
-    height: 500px;
+    height: 350px;
   }
 
 #chartdiv {
     width: 100%;
-    height: 500px;
+    height: 350px;
   }
 
 /* End Chart & Graph CSS */

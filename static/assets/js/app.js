@@ -1,10 +1,5 @@
-
 var salesRadialData;
 var stateSelector =  d3.select("#selDataset");
-var deathsData;
-
-
-var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
 
 // Creating map object
 var mymap = L.map('map')
@@ -82,7 +77,7 @@ legend.addTo(mymap);
 
 //filters for the year that the user has selected and colors the map based on deaths from all opioids.
 function yearUpdate(year){
-  let data = deathsData;
+  d3.json(deathsUrl).then(function(data){
 
     var allOpioids = [];
     for (var i = 0; i < data.length; i++){
@@ -104,11 +99,9 @@ function yearUpdate(year){
     //add color to states
     function style(feature) {
       var stateToFind = feature.properties.name;
-      //var opioidsYear = yearUpdate(deaths, year)
       stateInfo = allOpioids.filter(s=> s.State == stateToFind);
-      //console.log(stateInfo);
-  
       deathsValue = stateInfo[0].Deaths
+
   
       return {
           fillColor: choroColor(deathsValue),
@@ -132,7 +125,7 @@ function yearUpdate(year){
           color: '#666',
           dashArray: '',
           fillOpacity: 0.7
-      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + deathsValue + " Opioid deaths per 100,000 </p>");
+      })
   
       if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
           layer.bringToFront();
@@ -148,7 +141,7 @@ function yearUpdate(year){
       layer.on({
           mouseover: highlightFeature,
           mouseout: resetHighlight,
-      });
+      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + deathsValue + " Opioid deaths per 100,000 </p>");
     }
   
     geojson = L.geoJson(statesData, {
@@ -157,9 +150,11 @@ function yearUpdate(year){
     }).addTo(mymap);
   
     //end highlight on mouse over
-
+  });
 }
 // end yearUpdate Function
+
+
 
 d3.json(deathsUrl).then(function(deaths){
   d3.json(salesUrl).then(function(sales){
@@ -244,6 +239,7 @@ d3.json(deathsUrl).then(function(deaths){
       // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
       // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
       // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
+      
       var deathDict = {}; 
       deathDict["Year"] = yearKey;
       deathDict["Heroin"] = heroinSum; 
@@ -330,7 +326,7 @@ d3.json(deathsUrl).then(function(deaths){
     series3.strokeWidth = 2;
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
-    chart.scrollbarX = new am4core.Scrollbar();
+    //chart.scrollbarX = new am4core.Scrollbar();
     
     // Add a legend
     chart.legend = new am4charts.Legend();
@@ -366,13 +362,13 @@ function radialChart(curState) {
   let filterData = salesRadialData; 
   
   filterData = filterData.filter(d => d.State === curState);
-  console.log("filterData:", filterData);
+  // console.log("filterData:", filterData);
 
   var yearSList = filterData.map(s => s.Year);
     
     yearSList.sort();   
     var yearSDictionary = {}; 
-    console.log("yearSDictionary:", yearSDictionary);
+    // console.log("yearSDictionary:", yearSDictionary);
     yearSList.forEach((year) => {
       if (year in yearSDictionary)
       {
@@ -454,14 +450,18 @@ function radialChart(curState) {
       
       chart.legend = new am4charts.Legend();
       chart.legend.position = "bottom";
+      
       }); // end am4core.ready()
+      
 
 } // end of radialChart function
 
 
 function stateChange() {
+  //am4core.disposeAllCharts();
+  //chart.dispose();
   let curState = this.value;
-  radialChart(curState)
+  radialChart(curState);
 }
 // function stateChange(curState) {     other way, change within index.html
 //   radialChart(curState)
@@ -500,6 +500,8 @@ function initDashboard(){
     });
     var stateSelect = stateName[0];
 
+    var years = deaths.map(y => y.Year);
+    years = years.filter((x,i,a) => a.indexOf(x)==i);
     var yearSelector = d3.select("#yrDataset");
     years.forEach((yearSelect)=>{
       yearSelector.append("option")
