@@ -34,6 +34,10 @@ def about():
 def deathsData():
     return render_template('deathsData.html')
 
+@app.route('/salesData')
+def salesData():
+    return render_template('salesData.html')
+
 @app.route('/api/v1.0/deathTest')
 def deathRoute():
     session = Session(engine)

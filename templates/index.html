@@ -40,27 +40,28 @@
       <div class ="col-md-4">
         <p>Here's where we can link to the about page and data view.</p>
         <h7>Select State</h7>
-        <select id ="selDataset" onchange="optionChanged(this.value)"></select>
+        <select id ="selDataset"></select>
+        <!-- <select id ="selDataset" onchange="stateChange(this.value)"></select> -->
         <h7>Select Year</h7>
         <select id ="yrDataset" onchange="optionChanged(this.value)"></select>
       </div>
     </div>
-    <div class ="row">
+    <div class ="row mt-5 mb-5 pt-5 pb-5">
       <div class = "col-md-6">
         <div id="chartdiv"></div>
       </div>
       <div class = "col-md-6">
+        <h4 class = "text-center" id = "radialChartTitle">Total Sales Per 100,000 People</h4>
         <div id="chartdivRadial"></div>
       </div>
-      
     </div>
   </div>
   
 
-  <!-- Footer Section
+  <!-- Footer Section -->
   <footer>
     <div class="footer">Copyright &copy; Liz Jones, Melissa Keller, & Vallie Tracy 2020</div>
-  </footer> -->
+  </footer>
     <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

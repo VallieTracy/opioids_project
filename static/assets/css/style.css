@@ -1,9 +1,16 @@
+.box {
+    background-color: aquamarine;
+    padding: 20px;
+    margin-top: 50px;
+    }
+
+
 /* FOOTER */
-footer {
-    background-color: #666666; 
+.footer {
+    background-color: #5a8686; /*#666666*/
     border-top-style: solid; 
-    border-top-width: 5px; 
-    border-top-color: #0BADA6;
+    border-top-width: 4px; 
+    border-top-color: black; /*#0BADA6*/
     color: white; 
     min-height: 55px; 
     font-family: Arial, Helvetica, sans-serif;
