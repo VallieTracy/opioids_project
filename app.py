@@ -36,7 +36,7 @@ def deathsData():
 
 @app.route('/salesData')
 def salesData():
-    return render_template('deathsData.html')
+    return render_template('salesData.html')
 
 @app.route('/api/v1.0/deathTest')
 def deathRoute():
