@@ -8,7 +8,6 @@ var mymap = L.map('map')
   .setView([38.27, -95.86], 4);
 
 
-
 // Adding tile layer
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -18,7 +17,6 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: API_KEY
 }).addTo(mymap);
-
 
 
 var deathsUrl = "/api/v1.0/deathTest";
@@ -152,7 +150,6 @@ function yearUpdate(year){
 
 }
 
-
 d3.json(deathsUrl).then(function(deaths){
   d3.json(salesUrl).then(function(sales){
 
@@ -165,7 +162,6 @@ d3.json(deathsUrl).then(function(deaths){
         sales[q]["Year"] =+ sales[q]["Year"];
         sales[q]["Prescriptions per 100,000"] =+ sales[q]["Prescriptions per 100,000"];
     }
-
 
     //LIZ SECTION
 
@@ -205,7 +201,6 @@ d3.json(deathsUrl).then(function(deaths){
         }
       });
 
-
       //Liz code for nat and semi deaths
 
 
@@ -234,7 +229,6 @@ d3.json(deathsUrl).then(function(deaths){
             }
           });
 
-
       //console.log(heroinSum)
       // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
       // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
@@ -255,13 +249,15 @@ d3.json(deathsUrl).then(function(deaths){
     //console.log("DeathData"); 
      
 
+    //State Stuff 
+
+    
 
     //Liz Graph
 
 
     var chart = am4core.create("chartdiv", am4charts.XYChart);
     chart.data = deathData; 
-
 
 
     chart.dateFormatter.inputDateFormat = "yyyy";
@@ -351,6 +347,7 @@ d3.json(deathsUrl).then(function(deaths){
     range2.label.verticalCenter = "bottom";
   }) //end of sales json
 
+
 }); //end of death json
 
 function radialChart(curState) {
@@ -399,6 +396,7 @@ function radialChart(curState) {
       newSData.push(newSDict); 
     }
     
+
     // Vallie's radial chart
     //Chart code 
     /* Create chart instance */
@@ -449,6 +447,7 @@ function radialChart(curState) {
 
 } // end of radialChart function
 
+
 function stateChange() {
   let curState = this.value;
   radialChart(curState)
@@ -459,13 +458,13 @@ function stateChange() {
 
 stateSelector.on("change", stateChange);
 
+
 //function for when the user selects a state
 function optionChanged(newYear){
   //functions for drawing graphs here
   yearUpdate(newYear);
 
 }
-
 
 //function for initial landing page
 function initDashboard(){
@@ -509,4 +508,3 @@ function initDashboard(){
 
 // call initial landing page function to get landing page to display
 initDashboard();
-
