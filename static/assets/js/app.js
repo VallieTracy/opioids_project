@@ -243,6 +243,10 @@ d3.json(deathsUrl).then(function(deaths){
     //console.log("DeathData"); 
     console.log(deathData);  
 
+    //State Stuff 
+
+    
+
     //Liz Graph
 
     var chart = am4core.create("chartdiv", am4charts.XYChart);
