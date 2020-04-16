@@ -425,18 +425,7 @@ d3.json(deathsUrl).then(function(deaths){
       /* Create chart instance */
       var chart = am4core.create("chartdivRadial", am4charts.RadarChart);
       
-      // var data = [];
-      // var value1 = 500;
-      // var value2 = 600;
-      
-      // for(var i = 0; i < 12; i++){
-      //   let date = new Date();
-      //   date.setMonth(i, 1);
-      //   value1 -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
-      //   value2 -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
-      //   data.push({date:date, value1:value1, value2:value2})
-      // }
-      
+      // Define data
       chart.data = newSData;
       
       /* Create axes */
@@ -452,7 +441,7 @@ d3.json(deathsUrl).then(function(deaths){
       series1.dataFields.valueY = "Oxy";
       series1.dataFields.dateX = "Year";
       series1.strokeWidth = 3;
-      series1.tooltipText = "{name}\nSales/100k: {valueY}";
+      series1.tooltipText = "{valueY}";
       series1.name = "Oxycodone";
       series1.bullets.create(am4charts.CircleBullet);
       series1.dataItems.template.locations.dateX = 0.5;
@@ -461,52 +450,16 @@ d3.json(deathsUrl).then(function(deaths){
       series2.dataFields.valueY = "Hydro";
       series2.dataFields.dateX = "Year";
       series2.strokeWidth = 0.5;
-      series2.tooltipText = "{name}\nSales/100k: {valueY}";
+      series2.tooltipText = "{valueY}";
       series2.name = "Hydrocodone";
       series2.columns.template.fill = am4core.color("#CDA2AB");
       series2.dataItems.template.locations.dateX = 0.5;
-      
-      //chart.scrollbarX = new am4core.Scrollbar();
-      //chart.scrollbarY = new am4core.Scrollbar();
       
       chart.cursor = new am4charts.RadarCursor();
       
       chart.legend = new am4charts.Legend();
       chart.legend.position = "bottom";
-      
-       
-      
       }); // end am4core.ready()
-
-
-
-    // MORE BASIC CHART
-    // var chart = am4core.create("chartdivRadial", am4charts.RadarChart);
-    // /* Add data */
-    // chart.data = newSData;
-    
-    // /* Create axes */
-    // var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    // categoryAxis.dataFields.category = "Year";
-    // var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    // /* Create and configure series */
-    // var series = chart.series.push(new am4charts.RadarSeries());
-    // series.dataFields.valueY = "Oxy";
-    // series.dataFields.categoryX = "Year";
-    // series.name = "Oxy";
-    // series.strokeWidth = 3;
-    // series.zIndex = 2;
-    // var series2 = chart.series.push(new am4charts.RadarColumnSeries());
-    // series2.dataFields.valueY = "Hydro";
-    // series2.dataFields.categoryX = "Year";
-    // series2.name = "Hydro";
-    // series2.strokeWidth = 0;
-    // series2.columns.template.fill = am4core.color("#CDA2AB");
-    // series2.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
-
-    // chart.legend = new am4charts.Legend();
-
-    
   }) //end of sales json
 
 }); //end of death json
