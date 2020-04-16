@@ -15,7 +15,18 @@ footer {
     width: 100%;
     padding-top: 15px; 
     }
+/* Main CSS */
+body{
+    padding: 10px
+}
+.container{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+/* End Main CSS */
 
+
+/* Chart & Graph CSS */
 #map{
     height: 400px;
 }
@@ -30,8 +41,9 @@ footer {
     height: 500px;
   }
 
+/* End Chart & Graph CSS */
 
-
+/* Legend CSS */
 .leaflet-bottom{
     background-color: white;
 
@@ -39,11 +51,23 @@ footer {
 
 .leaflet-left{
     margin-bottom: 15px;
+    height: 50px;
 }
 
 span{
-    padding: 5px;
-    margin: 5px;  
+    padding: 2px 10px;
+    
 }
 
+p{
+    padding: 5px;
+    font-weight: 500;
+    margin-bottom: 0px;
+}
+/* End Legend CSS */
 
+/* PopUp CSS */
+.leaflet-popup-content{
+    width: 100px;
+}
+/* End PopUp CSS */

@@ -52,19 +52,28 @@ function choroColor(d){
   return color;
 }
 
-//adding legend to the map
+// //adding legend to the map
 var legend = L.control({position: "bottomleft"});
 legend.onAdd = function(mymap){
   var div = L.DomUtil.create("div", "info legend"),
-  limits = [0, 3, 8, 14, 20, 27, 34, 40]
-  div.innerHTML += '<p>Deaths from All Opioids, per 100,000</p>'
-  for(var i =0; i<limits.length; i++){
+  limits = [0, 3, 8, 14, 20, 27, 34, 50]
 
-    div.innerHTML += '<span style = background-color:' +choroColor(limits[i]+1) + '>' +
-    limits[i]+(limits[i+1] ? '&ndash;' + limits[i+1] : ' + </span>');
+  function colorLegend(array){
+    for(var i =0; i<array.length; i++){
+      div.innerHTML += '<span style = background-color:' + choroColor(array[i]+1) + '> </span>';
+    }
+    return div.innerHTML;
   }
+
+  var legendInfo = "<p>Deaths from All Opioids (per 100,000)</p>"+
+    "<span>" + limits[0] + "&nbsp;" + colorLegend(limits) + "&nbsp;" + limits[limits.length -1] + "</span>";
+
+  div.innerHTML = legendInfo;
+
   return div;
 };
+
+
 legend.addTo(mymap);
 
 //filters for the year that the user has selected and colors the map based on deaths from all opioids.
@@ -119,7 +128,7 @@ function yearUpdate(year){
           color: '#666',
           dashArray: '',
           fillOpacity: 0.7
-      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <h7> All opioid deaths per 100,000: " + deathsValue + "</h7>");
+      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\">" + deathsValue + " Opioid deaths per 100,000 </p>");
   
       if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
           layer.bringToFront();
