@@ -1,3 +1,6 @@
+var salesRadialData;
+var stateSelector =  d3.select("#selDataset");
+
 var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
 
 // Creating map object
@@ -152,6 +155,7 @@ function yearUpdate(year){
 
 d3.json(deathsUrl).then(function(deaths){
   d3.json(salesUrl).then(function(sales){
+
     for (var q=0; q<deaths.length; q++){
         deaths[q]["Deaths per 100,000"] =+ deaths[q]["Deaths per 100,000"];
         deaths[q]["Year"] =+ deaths[q]["Year"];
@@ -345,18 +349,19 @@ d3.json(deathsUrl).then(function(deaths){
     range2.label.rotation = 90;
     range2.label.horizontalCenter = "right";
     range2.label.verticalCenter = "bottom";
+  }) //end of sales json
 
-    // end am4core.ready
+}); //end of death json
 
-    //END LIZ SECTION
+function radialChart(curState) {
+  var chartTitle = d3.select("#radialChartTitle").text(`${curState} Total Sales Per 100,000 People`)
+  let filterData = salesRadialData; 
+  
+  filterData = filterData.filter(d => d.State === curState);
+  console.log("filterData:", filterData);
+
+  var yearSList = filterData.map(s => s.Year);
     
-    //VALLIE SECTION
-    // Determine the range of year by building an object 
-    // and adding a key for each year. We've used a similar
-    // strategy in class activities.
-    console.log("salesDB:", sales);
-    var yearSList = sales.map(s => s.Year);
-    console.log("yearSList:", yearSList);
     yearSList.sort();   
     var yearSDictionary = {}; 
     console.log("yearSDictionary:", yearSDictionary);
@@ -370,123 +375,30 @@ d3.json(deathsUrl).then(function(deaths){
         yearSDictionary[year] = 1; 
       }
     }); 
-    // Show the format of the yearDictionary
-    console.log("yearSDictionary:", yearSDictionary); 
-    // Next, extract the prescription data for each drug type. Note that this currently
-    // addes together all of the prescription data for each state--so you can't currently
-    // filter by a particular state. Yes, it's possible to filter by state, but ... one
-    // thing at a time.
+    
     var newSData = [];
-    console.log("newSData:", newSData);
+    
     const yearSKeys = Object.keys(yearSDictionary);  
-    console.log("const yearSKeys:", yearSKeys);   
+      
     // For each year in the list of years ...
     for (const yearSKey of yearSKeys) {
-      // ... filter out the Oxycodone values and sum them up for each state
-      var oxyData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Oxycodone" && d["Year"] == yearSKey);
-      var oxySum = 0.0;
-      oxyData.forEach((item) => {
-        oxySum += item["Prescriptions per 100,000"]; 
-      });
-      // ... filter out the Hydrocodone values and sum them up for each state
-      var hydroData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearSKey);
-      var hydroSum = 0.0; 
-      hydroData.forEach((item) => {
-        hydroSum += item["Prescriptions per 100,000"]; 
-      });
-      console.log(`year: ${yearSKey}, oxySum: ${oxySum}`); 
-      console.log(`year: ${yearSKey}, hydroSum: ${hydroSum}`); 
+      // Filter out the oxycodone sales
+      var oxyData = filterData.filter(d => d["Oxycodone / Hydrocodone"] === "Oxycodone" && d["Year"] == yearSKey);
+      var oxy = oxyData[0]["Prescriptions per 100,000"];
+      
+      // Filter out the Hydrocodone sales
+      var hydroData = filterData.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearSKey);
+      var hydro = hydroData[0]["Prescriptions per 100,000"]; 
+             
       // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
       var newSDict = {}; 
       newSDict["Year"] = yearSKey;
-      newSDict["Oxy"] = oxySum;
-      newSDict["Hydro"] = hydroSum; 
+      newSDict["Oxy"] = oxy;
+      newSDict["Hydro"] = hydro; 
       // Finally, add this new dictionary to the array
       newSData.push(newSDict); 
-      console.log("LASTLY, newSDict:", newSDict);
     }
-    // newData now contains an array of objects, where each object looks
-    // like this:
-    // { "Year": "2000",
-    //   "Oxy":  316.74734,
-    //   "Hydro": 247.3340 }
-    // Here's a look at newData
-
-    // console.log("newData"); 
-    // console.log(newData);
-    // END OF DOM'S CODE BUT DUPLICATED FOR THE DEATHS AS OPPOSED TO SALES
-    // -------------------------------------------------------------------------------------
     
-
-    // Working to duplicate what dom did, but looking at states.  BELOW: ************ trying to duplicate states ***********************************
-    //VALLIE SECTION
-    // Determine the range of year by building an object 
-    // and adding a key for each year. We've used a similar
-    // strategy in class activities.
-    // var yearSList = sales.map(s => s.Year);
-    // yearSList.sort();   
-    // var yearSDictionary = {}; 
-    // yearSList.forEach((year) => {
-    //   if (year in yearSDictionary)
-    //   {
-    //     yearSDictionary[year]++; 
-    //   }
-    //   else
-    //   {
-    //     yearSDictionary[year] = 1; 
-    //   }
-    // }); 
-    // Show the format of the yearDictionary
-    // console.log("yearSDictionary"); 
-    // console.log(yearSDictionary); 
-    // Next, extract the prescription data for each drug type. Note that this currently
-    // addes together all of the prescription data for each state--so you can't currently
-    // filter by a particular state. Yes, it's possible to filter by state, but ... one
-    // thing at a time.
-    // var newSData = [];
-    // const yearSKeys = Object.keys(yearSDictionary);     
-    // For each year in the list of years ...
-    // for (const yearSKey of yearSKeys) {
-    //   // ... filter out the Oxycodone values and sum them up for each state
-    //   var oxyData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Oxycodone" && d["Year"] == yearSKey);
-    //   var oxySum = 0.0;
-    //   oxyData.forEach((item) => {
-    //     oxySum += item["Prescriptions per 100,000"]; 
-    //   });
-    //   // ... filter out the Hydrocodone values and sum them up for each state
-    //   var hydroData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearSKey);
-    //   var hydroSum = 0.0; 
-    //   hydroData.forEach((item) => {
-    //     hydroSum += item["Prescriptions per 100,000"]; 
-    //   });
-    //   // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
-    //   // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
-    //   // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
-    //   var newSDict = {}; 
-    //   newSDict["Year"] = yearSKey;
-    //   newSDict["Oxy"] = oxySum;
-    //   newSDict["Hydro"] = hydroSum; 
-    //   // Finally, add this new dictionary to the array
-    //   newSData.push(newSDict); 
-    // }
-    // newData now contains an array of objects, where each object looks
-    // like this:
-    // { "Year": "2000",
-    //   "Oxy":  316.74734,
-    //   "Hydro": 247.3340 }
-    // Here's a look at newData
-
-    // console.log("newData"); 
-    // console.log(newData);
-    // END OF DOM'S CODE BUT DUPLICATED FOR THE DEATHS AS OPPOSED TO SALES
-
-    // END of me trying to duplicate what dom did, but with states      ***** end of duplicating states ******************************
-
-
-
-
-
-
     // Vallie's radial chart
     //Chart code 
     /* Create chart instance */
@@ -534,12 +446,18 @@ d3.json(deathsUrl).then(function(deaths){
       chart.legend = new am4charts.Legend();
       chart.legend.position = "bottom";
       }); // end am4core.ready()
-  }) //end of sales json
 
-}); //end of death json
+} // end of radialChart function
 
+function stateChange() {
+  let curState = this.value;
+  radialChart(curState)
+}
+// function stateChange(curState) {     other way, change within index.html
+//   radialChart(curState)
+// }
 
-
+stateSelector.on("change", stateChange);
 
 //function for when the user selects a state
 function optionChanged(newYear){
@@ -553,7 +471,12 @@ function optionChanged(newYear){
 function initDashboard(){
   var stateSelector = d3.select("#selDataset");
 
+  d3.json(salesUrl).then(function(sales){
+    salesRadialData = sales;
+    radialChart("Alabama");
+  });  
   d3.json(deathsUrl).then((deaths)=>{
+
     var stateName = [];
     for (var a = 0; a<statesData.features.length; a++){
       stateName.push(statesData.features[a].properties.name);
@@ -576,11 +499,14 @@ function initDashboard(){
     var yearSelect = years[0];
 
     yearUpdate(yearSelect);
+    
   });
 
   //call functions here to draw the initial radial and stacked area graphs for the landing page.
+  
 
 }
 
 // call initial landing page function to get landing page to display
 initDashboard();
+
