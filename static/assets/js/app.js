@@ -411,6 +411,100 @@ d3.json(deathsUrl).then(function(deaths){
     // console.log(newData);
     // END OF DOM'S CODE BUT DUPLICATED FOR THE DEATHS AS OPPOSED TO SALES
     // -------------------------------------------------------------------------------------
+    console.log("newSData:", newSData);
+
+    // Working to duplicate what dom did, but looking at states.  BELOW: ************ trying to duplicate states ***********************************
+    //VALLIE SECTION
+    // Determine the range of year by building an object 
+    // and adding a key for each year. We've used a similar
+    // strategy in class activities.
+    var stateVList = sales.map(s => s.State);
+    console.log("stateVList:", stateVList);
+    var stateVDictionary = {};
+    stateVList.forEach((state) => {
+      if (state in stateVDictionary)
+      {
+        stateVDictionary[state]++; 
+      }
+      else
+      {
+        stateVDictionary[state] = 1; 
+      }
+    }); 
+    console.log("stateVDictionary:", stateVDictionary);
+    // var states = [];
+    // sales.forEach((state) => {
+    //   if(!states.includes(state.State)) {
+    //     states.push(state.State);
+    //   }
+    // });
+    // console.log("states:", states);
+    
+    // var yearSList = sales.map(s => s.Year);
+    // yearSList.sort();   
+    // var yearSDictionary = {}; 
+    // yearSList.forEach((year) => {
+    //   if (year in yearSDictionary)
+    //   {
+    //     yearSDictionary[year]++; 
+    //   }
+    //   else
+    //   {
+    //     yearSDictionary[year] = 1; 
+    //   }
+    // });
+    // Show the format of the yearDictionary
+    console.log("yearVDictionary:"); 
+    console.log(yearVDictionary); 
+    // // Next, extract the prescription data for each drug type. Note that this currently
+    // // addes together all of the prescription data for each state--so you can't currently
+    // // filter by a particular state. Yes, it's possible to filter by state, but ... one
+    // // thing at a time.
+    var newVData = [];
+    const yearVKeys = Object.keys(yearVDictionary);  
+    console.log("keys:", yearVKeys);   
+    // For each year in the list of years ...
+    // for (const yearSKey of yearSKeys) {
+    //   // ... filter out the Oxycodone values and sum them up for each state
+    //   var oxyData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Oxycodone" && d["Year"] == yearSKey);
+    //   var oxySum = 0.0;
+    //   oxyData.forEach((item) => {
+    //     oxySum += item["Prescriptions per 100,000"]; 
+    //   });
+      // ... filter out the Hydrocodone values and sum them up for each state
+      // var hydroData = sales.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearSKey);
+      // var hydroSum = 0.0; 
+      // hydroData.forEach((item) => {
+      //   hydroSum += item["Prescriptions per 100,000"]; 
+      // });
+      // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
+      // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
+      // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
+      // var newSDict = {}; 
+      // newSDict["Year"] = yearSKey;
+      // newSDict["Oxy"] = oxySum;
+      // newSDict["Hydro"] = hydroSum; 
+      // Finally, add this new dictionary to the array
+     // newSData.push(newSDict); 
+    //}
+    // newData now contains an array of objects, where each object looks
+    // like this:
+    // { "Year": "2000",
+    //   "Oxy":  316.74734,
+    //   "Hydro": 247.3340 }
+    // Here's a look at newData
+
+    // console.log("newData"); 
+    // console.log(newData);
+    // END OF DOM'S CODE BUT DUPLICATED FOR THE DEATHS AS OPPOSED TO SALES
+    // -------------------------------------------------------------------------------------
+    //console.log("newSData:", newSData);
+
+    // END of me trying to duplicate what dom did, but with states      ***** end of duplicating states ******************************
+
+
+
+
 
 
     // Vallie's radial chart
