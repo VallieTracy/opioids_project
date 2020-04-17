@@ -32,7 +32,39 @@
 </head>
 
 <body>
-  <div class = "container">
+
+  <!-- Navbar Section -->
+  <!-- <div class="navigation border border-dark">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="index.html">OPIOIDS</a>
+      <button class="navbar-toggler border border-white" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">Plots</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="temp.html">Max Temperature</a>
+              <a class="dropdown-item" href="humidity.html">Humidity</a>
+              <a class="dropdown-item" href="cloudiness.html">Cloudiness</a>
+              <a class="dropdown-item" href="wind.html">Wind Speed</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="comparison.html">Comparison</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="data.html">Data</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div> -->
+
+  <div class = "container-fluid">
     <div class ="row">
       <div class ="col-md-8">
         <div id="map"></div>
@@ -49,7 +81,8 @@
           <select id ="yrDataset" onchange="optionChanged(this.value)"></select>
       </div>
     </div>
-    <div class ="row mt-5 mb-5 pt-5 pb-5">
+    
+    <div class ="row mt-1 mb-5 pt-1 pb-5">
       <div class = "col-md-6">
         <div id="chartdiv"></div>
       </div>
@@ -62,9 +95,9 @@
   
 
   <!-- Footer Section -->
-  <footer>
+  <!-- <footer>
     <div class="footer">Copyright &copy; Liz Jones, Melissa Keller, & Vallie Tracy 2020</div>
-  </footer>
+  </footer> -->
 
     <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
