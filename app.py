@@ -11,7 +11,7 @@ import pandas as pd
 app = Flask(__name__)
 
 
-engine = create_engine('sqlite:///opioidsDB.db')
+engine = create_engine('sqlite:///opioidsDB.db', connect_args={'check_same_thread':False})
 
 Base = automap_base()
 Base.prepare(engine, reflect=True)
