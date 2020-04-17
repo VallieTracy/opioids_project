@@ -12,20 +12,46 @@
 </head>
 
 <body>
+  <!-- Navbar Section -->
+  <div class="navigation border border-dark">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="index.html">OPIOIDS</a>
+      <button class="navbar-toggler border border-white" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">Data</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="deathsData.html">Opioid Deaths Data (Table)</a>
+              <a class="dropdown-item" href="salesData.html">Opioid Prescription Sales Data (Table)</a>
+              <a class="dropdown-item" href="#">Opioid Deaths Data (JSON)</a>
+              <a class="dropdown-item" href="#">Opioid Prescription Sales Data (JSON)</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About the Project</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
   <!-- Table Section -->
   <div class="container">
-    <!-- **Left off box class so it's black table on gray background (no white) -->
-    <!-- NOTE: The above might apply to the style.css, which I haven't dinked around with yet except for the footer -->
-      <h3 class="title">Data</h3>
+      <h3 class="title">Deaths from Opioids Raw Data</h3>
       <hr>
-      <h1>Whatever we want to say here.  Maybe give credit to the source.  Or blah blah blah. Make the table look pretty!</h1>
-      <h3>Or maybe we want to leave these as jsons in case 'someone' wanted to data for themselves.</h3>
-      <p>Or maybe a combo of the two.  Maybe put a link to the json.  All food for thought.</p>
+      <h4>This is the raw data that we used to visualize deaths from opioids for all 50 states spanning 19 years from 2000-2018.</h4>
+      <p>Feel free to utilize the json for your own purposes.  Give attribution to Liz Jones, Melissa Keller, & Vallie Tracy.
+          You can find the data in JSON format <a href="http://127.0.0.1:5000/api/v1.0/deathJson">here.</a>
+      </p>a combo of the two.  Maybe put a link to the json.  All food for thought.</p>
       <br>
 
     <!-- the table for drugPoisoningDeaths.csv -->
-    <table border="1" class="dataframe table table-striped table-dark">
+    <table class="dataframe table table-striped table-dark">
         <thead>
           <tr style="text-align: right;">
             <th></th>
@@ -74663,9 +74689,9 @@
 
 
     <!-- Footer Section -->
-<footer>
+<!-- <footer>
     <div class="footer">Copyright &copy; Liz Jones, Melissa Keller, & Vallie Tracy 2020</div>
-  </footer>
+  </footer> -->
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

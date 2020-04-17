@@ -128,11 +128,26 @@ body{
   /* text-align: center; */
   margin-top: 1px;
 }
-
-
 /* End PopUp CSS */
 
 /* Table Styling for Data Pages */
+table{
+  border-color: #08306b;
+}
 tbody{
-  margin-bottom: 100px;
+  background-color: #476997;
+  border-color: #08306b;
+}
+
+thead{
+  background-color: #476997;
+}
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+  background-color: #08306b;
+  border-color: #08306b;
+  color:white;
+}
+
+table .table-dark td, .table-dark th, .table-dark thead th {
+  border-color: #08306b;
 }
