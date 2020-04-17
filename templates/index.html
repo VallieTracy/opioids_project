@@ -65,7 +65,7 @@
   </div> -->
 
   <div class = "container-fluid">
-    <div class ="row">
+    <div class ="row pb-3">
       <div class ="col-md-8">
         <div id="map"></div>
       </div>
@@ -76,15 +76,44 @@
         <h6>Select Year: <select id ="yrDataset" onchange="optionChanged(this.value)"></select></h6>
           
 
-        <p>To explore the stacked area and radial charts. Select a state.</p>
-        <h6>Select State: <select id ="selDataset"></select></h6>
+        <!-- <p>To explore the stacked area and radial charts. Select a state.</p>
+        <h6>Select State: <select id ="selDataset"></select></h6> -->
    
+      </div>
+    </div> <!-- end of row -->
 
+    <hr>
+    
+    <div class = "row ml-5 mr-5 pt-1 pl-2" style="background-color: bisque;">
+      <h1>Stacked and Radial Chart:</h1>
+      <p>Here is where Liz could write some stuff.  Is there pertinent stuff that would fit here, it's not at the very top of the page.
+        Unsure if this would work....Liz could just make some 'technical' mentions.  Such as oxycodone and hydrocodone fall under the natural and 
+        semi-synthetic stuff. Nothing too in-depth, this isn't a book report.  It's a data analysis course. The about me page could handle more of
+        the epidemic itself, if our group wants that in our project verbiage.</p>
+      <p>Here's a quote from the shadac.org website, Liz might find small snippets useful: 'This set of two-page infographics uses estimates from SHADAC’s 
+        State Health Compare online data tool to explore the evolving opioid overdose epidemic across all 50 states and the District of Columbia, 
+        examining state variation in both the prevalence of opioid deaths and the types of opioids associated with these deaths. Additionally, 
+        due to growing concern and evidence that the opioid crisis may be expanding to other non-opioid illicit drugs, we have included data on 
+        drug overdose deaths from two types of drugs that are commonly involved in opioid overdoses: cocaine and psychostimulants, 
+        such as methamphetamine. The infographics highlight key findings for trends in drug overdose deaths from 2000-2017, 
+        show how each state's overdose rates compare to the national average, and provide a high-level comparison of all 50 states' overdose 
+        death rates broken down by each of the five drug types.'</p>
+      <ul>
+        <li> a bullet list item</li>
+        <li>another bullet list item</li>
+      </ul>
+    </div>
+
+    <div class = "row ml-5 mr-5" style="background-color: bisque;">
+      <div class = "col-md-5 p-2">
+        <p>To explore the stacked area and radial charts, select a state.</p>
+        <h6>Select State: <select id ="selDataset"></select></h6>
       </div>
     </div>
-    
-    <div class ="row mt-1 mb-5 pt-1 pb-5">
+
+    <div class ="row mt-1 mb-5 pt-3 pb-5">
       <div class = "col-md-6">
+        <h4 class = "text-center" id = "stackedChartTitle"></h4>
         <div id="chartdiv"></div>
       </div>
       <div class = "col-md-6">
@@ -92,13 +121,13 @@
         <div id="chartdivRadial"></div>
       </div>
     </div>
-  </div>
+  </div> <!-- end of container-->
   
 
   <!-- Footer Section -->
-  <!-- <footer>
+  <footer>
     <div class="footer">Copyright &copy; Liz Jones, Melissa Keller, & Vallie Tracy 2020</div>
-  </footer> -->
+  </footer>
 
     <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

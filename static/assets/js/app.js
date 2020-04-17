@@ -160,6 +160,9 @@ function yearUpdate(year){
 
 
 function stackedChart(curState) {
+  var titleStr = `${curState} Liz's Title`;
+  var chartTitle = d3.select("#stackedChartTitle").html(titleStr +  "\<br\>some more title if need be");
+
   let filterData = deathsData;
 
   filterData= filterData.filter(d => d.State === curState);
@@ -309,8 +312,7 @@ function stackedChart(curState) {
   series3.strokeWidth = 2;
   chart.cursor = new am4charts.XYCursor();
   chart.cursor.xAxis = dateAxis;
-  chart.scrollbarX = new am4core.Scrollbar();
-  
+    
   // Add a legend
   chart.legend = new am4charts.Legend();
   chart.legend.position = "bottom";
