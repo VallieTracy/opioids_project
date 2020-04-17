@@ -161,28 +161,9 @@ function yearUpdate(year){
 }
 // end yearUpdate Function
 
-d3.json(deathsUrl).then(function(deaths){
-  d3.json(salesUrl).then(function(sales){
 
-    for (var q=0; q<deaths.length; q++){
-        deaths[q]["Deaths per 100,000"] =+ deaths[q]["Deaths per 100,000"];
-        deaths[q]["Year"] =+ deaths[q]["Year"];
-    }
 
-    for (var q =0; q<sales.length; q++){
-        sales[q]["Year"] =+ sales[q]["Year"];
-        sales[q]["Prescriptions per 100,000"] =+ sales[q]["Prescriptions per 100,000"];
-    }
 
-    //LIZ SECTION
-
-    // Determine the range of year by building an object 
-    // and adding a key for each year. We've used a similar
-    // strategy in class activities.
-
-  }) //end of sales json
-
-}); //end of death json
 
 function stackedChart(curState) {
   let filterData = deathsData;
@@ -371,8 +352,12 @@ function stackedChart(curState) {
 
 
 
-function radialChart(curState) {
-  var chartTitle = d3.select("#radialChartTitle").text(`${curState} Total Sales Per 100,000 People`)
+
+
+function radialChart(curState) {   
+  var titleStr = `${curState} Prescription Sales`;
+  var chartTitle = d3.select("#radialChartTitle").html(titleStr +  "\<br\>Per 100,000 People");
+
   let filterData = salesRadialData; 
   
   filterData = filterData.filter(d => d.State === curState);
@@ -403,7 +388,7 @@ function radialChart(curState) {
       // Filter out the oxycodone sales
       var oxyData = filterData.filter(d => d["Oxycodone / Hydrocodone"] === "Oxycodone" && d["Year"] == yearSKey);
       var oxy = oxyData[0]["Prescriptions per 100,000"];
-      
+            
       // Filter out the Hydrocodone sales
       var hydroData = filterData.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearSKey);
       var hydro = hydroData[0]["Prescriptions per 100,000"]; 
@@ -417,12 +402,11 @@ function radialChart(curState) {
       newSData.push(newSDict); 
     }
     
-
     // Vallie's radial chart
     //Chart code 
     /* Create chart instance */
     am4core.ready(function() {
-
+      
       // Themes begin
       am4core.useTheme(am4themes_animated);
       // Themes end
@@ -454,7 +438,7 @@ function radialChart(curState) {
       var series2 = chart.series.push(new am4charts.RadarColumnSeries());
       series2.dataFields.valueY = "Hydro";
       series2.dataFields.dateX = "Year";
-      series2.strokeWidth = 0.5;
+      series2.strokeWidth = 0.25;
       series2.tooltipText = "{valueY}";
       series2.name = "Hydrocodone";
       series2.columns.template.fill = am4core.color("#CDA2AB");
@@ -465,7 +449,6 @@ function radialChart(curState) {
       chart.legend = new am4charts.Legend();
       chart.legend.position = "bottom";
       }); // end am4core.ready()
-
 } // end of radialChart function
 
 
@@ -473,11 +456,11 @@ function stateChange() {
   am4core.disposeAllCharts();
   let curState = this.value;
   radialChart(curState);
+
   stackedChart(curState);
+
+
 }
-// function stateChange(curState) {     other way, change within index.html
-//   radialChart(curState)
-// }
 
 stateSelector.on("change", stateChange);
 
@@ -486,7 +469,6 @@ stateSelector.on("change", stateChange);
 function optionChanged(newYear){
   //functions for drawing graphs here
   yearUpdate(newYear);
-
 }
 
 //function for initial landing page
@@ -532,3 +514,4 @@ function initDashboard(){
 
 // call initial landing page function to get landing page to display
 initDashboard();
+
