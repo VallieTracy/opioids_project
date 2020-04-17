@@ -1,4 +1,5 @@
 var salesRadialData;
+var deathsData;
 var stateSelector =  d3.select("#selDataset");
 
 // Creating map object
@@ -74,10 +75,16 @@ legend.onAdd = function(mymap){
 
 legend.addTo(mymap);
 
+
+//layer controls for the years
+
+
+
+
 //filters for the year that the user has selected and colors the map based on deaths from all opioids.
 function yearUpdate(year){
-  d3.json(deathsUrl).then(function(data){
 
+    let data = deathsData;
     var allOpioids = [];
     for (var i = 0; i < data.length; i++){
       
@@ -139,7 +146,7 @@ function yearUpdate(year){
       layer.on({
           mouseover: highlightFeature,
           mouseout: resetHighlight,
-      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + deathsValue + " Opioid deaths per 100,000 </p>");
+      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + parseFloat(deathsValue).toFixed(2) +  " Opioid deaths per 100,000 </p>");
     }
   
     geojson = L.geoJson(statesData, {
@@ -148,7 +155,6 @@ function yearUpdate(year){
     }).addTo(mymap);
   
     //end highlight on mouse over
-  });
 }
 // end yearUpdate Function
 
@@ -509,11 +515,8 @@ function initDashboard(){
     var yearSelect = years[0];
 
     yearUpdate(yearSelect);
-    
-  });
 
-  //call functions here to draw the initial radial and stacked area graphs for the landing page.
-  
+  });
 
 }
 
