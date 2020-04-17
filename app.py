@@ -38,7 +38,7 @@ def deathsData():
 def salesData():
     return render_template('salesData.html')
 
-@app.route('/api/v1.0/deathTest')
+@app.route('/deathJson')
 def deathRoute():
     session = Session(engine)
     deathByState = session.query(deaths.Location, deaths.Data, deaths.Fips, deaths.Drug_Type, deaths.TimeFrame).all()
@@ -57,7 +57,7 @@ def deathRoute():
 
 
 
-@app.route('/api/v1.0/prescriptionTest')
+@app.route('/prescriptionJson')
 def prescriptionRoute():
     session = Session(engine)
     prescriptionsByState = session.query(prescriptions.Location, prescriptions.Data, prescriptions.Fips, prescriptions.Oxy_Hydro, prescriptions.TimeFrame)

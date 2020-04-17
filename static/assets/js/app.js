@@ -18,14 +18,14 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(mymap);
 
 
-var deathsUrl = "/api/v1.0/deathTest";
-var salesUrl = "/api/v1.0/prescriptionTest";
+var deathsUrl = "/deathJson";
+var salesUrl = "/prescriptionJson";
 
 // coloring for choropleth.
 function choroColor(d){
   // min for all opioids = 0.65003, max for all opioids = 49.60242
   var color = "";
-  if (d > 40){  //should probably start a little lower, so that more fall into this other than just one state
+  if (d > 40){ 
     color = "#08306b";
   }
   else if (d > 34){
@@ -60,7 +60,7 @@ legend.onAdd = function(mymap){
 
   function colorLegend(array){
     for(var i =0; i<array.length; i++){
-      div.innerHTML += '<span style = background-color:' + choroColor(array[i]+1) + '> </span>';
+      div.innerHTML += '<span id="test" style = background-color:' + choroColor(array[i]+1) + '> </span>';
     }
     return div.innerHTML;
   }
@@ -146,7 +146,8 @@ function yearUpdate(year){
       layer.on({
           mouseover: highlightFeature,
           mouseout: resetHighlight,
-      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + parseFloat(deathsValue).toFixed(2) +  " Opioid deaths per 100,000 </p>");
+      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class=\"numPopup\">" + parseFloat(deathsValue).toFixed(2) +  
+                    "</p> \n <p class=\"unitPopup\"> (Opioid deaths per 100,000)</p>");
     }
   
     geojson = L.geoJson(statesData, {
@@ -166,7 +167,7 @@ function stackedChart(curState) {
   let filterData = deathsData;
 
   filterData= filterData.filter(d => d.State === curState);
-  console.log("filterDataLiz:", filterData);
+  //console.log("filterDataLiz:", filterData);
   var yearList = filterData.map(d => d.Year); //DEBUG used to be sales.map
   yearList.sort();   
   var yearDictionary = {}; 
@@ -192,7 +193,7 @@ function stackedChart(curState) {
     // ... filter out the Oxycodone values and sum them up for each state
     var heroinData = filterData.filter(d => d["Drug Type"] === "Heroin" && d["Year"] == yearKey);
     var heroin =heroinData[0]["Deaths per 100,000"];
-    console.log("heroinData", heroinData)
+    //console.log("heroinData", heroinData)
     
 
     //Liz code for nat and semi deaths
