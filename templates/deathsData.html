@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="static/assets/css/style.css">
+    
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="static/assets/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opioids Data</title>
 </head>
@@ -47,15 +48,17 @@
     <!-- NOTE: The above might apply to the style.css, which I haven't dinked around with yet except for the footer -->
       <h3 class="title">Data</h3>
       <hr>
-      <h1></h1>
-      <h3></h3>
+      
+      <h4>This is the raw data that we used to visualize opioid deaths for all 50 states spanning 19 years from 2000-2018.</h4>
+      <p>Feel free to utilize the json for your own purposes.  Give attribution to Liz Jones, Melissa Keller, & Vallie Tracy.
+            You can find the data in JSON format <a href="http://127.0.0.1:5000/api/v1.0/deathTest">here.</a>
       <p>Dataset drawn from: <a href="https://wonder.cdc.gov/"> Center for Disease Control WONDER database</a> and intially compiled by
         State Health Compare, SHADAC, University of Minnesota, <a href="http://statehealthcompare.shadac.org/map/197/opioidrelated-and-other-drug-poisoning-deaths-per-100000-people-by-drug-type#125/24/233"> statehealthcompare.shadac.org</a> Accessed April 2020.</p>
       <br>
       
 
     <!-- the table for drugPoisoningDeaths.csv -->
-    <table border="1" class="dataframe table table-striped table-dark">
+    <table class="dataframe table table-striped table-dark">
         <thead>
           <tr style="text-align: right;">
             <th></th>
