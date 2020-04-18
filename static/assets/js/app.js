@@ -146,7 +146,8 @@ function yearUpdate(year){
       layer.on({
           mouseover: highlightFeature,
           mouseout: resetHighlight,
-      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + parseFloat(deathsValue).toFixed(2) +  " Opioid deaths per 100,000 </p>");
+      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class=\"numPopup\">" + parseFloat(deathsValue).toFixed(2) +  
+      "</p> \n <p class=\"unitPopup\"> (Opioid deaths per 100,000)</p>");
     }
   
     geojson = L.geoJson(statesData, {
