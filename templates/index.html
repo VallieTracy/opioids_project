@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
 
-        <!-- Bootstrap -->
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <!-- Leaflet CSS  -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
@@ -34,9 +34,9 @@
 <body>
 
   <!-- Navbar Section -->
-  <!-- <div class="navigation border border-dark">
+  <div class="navigation">
     <nav class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand" href="index.html">OPIOIDS</a>
+      <a class="navbar-brand" href="http://127.0.0.1:5000/">OPIOIDS</a>
       <button class="navbar-toggler border border-white" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -44,80 +44,75 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">Plots</a>
+            <a class="nav-link nav-link-data dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">Data</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="temp.html">Max Temperature</a>
-              <a class="dropdown-item" href="humidity.html">Humidity</a>
-              <a class="dropdown-item" href="cloudiness.html">Cloudiness</a>
-              <a class="dropdown-item" href="wind.html">Wind Speed</a>
+              <a class="dropdown-item" href="http://127.0.0.1:5000/deathsData">Deaths Table</a>
+              <a class="dropdown-item" href="http://127.0.0.1:5000/salesData">Sales Table</a>
+              <a class="dropdown-item" href="http://127.0.0.1:5000/api/v1.0/deathTest">Deaths JSON</a>
+              <a class="dropdown-item" href="http://127.0.0.1:5000/api/v1.0/prescriptionTest">Sales JSON</a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="comparison.html">Comparison</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="data.html">Data</a>
+            <a class="nav-link nav-link-about" href="http://127.0.0.1:5000/about">About the Project</a>
           </li>
         </ul>
       </div>
     </nav>
-  </div> -->
+  </div>
 
+  <!-- Content Section -->
   <div class = "container-fluid">
-    <div class ="row pb-3">
-      <div class ="col-md-8">
+    
+    <!-- Title Section -->
+    <h1 class = "pt-3 pb-1" style = "text-align: center;">Opioid Epidemic Data Visualization</h1> 
+     
+    <!-- Choropleth and associated 'stuff' -->
+    <div class ="row pb-3 pt-3">
+      <div class ="col-md-9">
         <div id="map"></div>
       </div>
-      <div class ="col-md-4">
-
-        <h3>Opioid Deaths and Prescriptions in the United States</h3>
-        <p>To explore the map. Select a year.</p>
-        <h6>Select Year: <select id ="yrDataset" onchange="optionChanged(this.value)"></select></h6>
-          
-
-        <!-- <p>To explore the stacked area and radial charts. Select a state.</p>
-        <h6>Select State: <select id ="selDataset"></select></h6> -->
-   
+      
+      <div class ="col-md-3">
+        <br>
+        <br>
+        <br>
+        <h3>Deaths Across the U.S.</h3>
+        <h5>Per 100,000 People</h5>
+        <h6><i>Looking at all opioids</i></h6>
+        <br>
+        <p>To explore the map, select a year.</p>
+        <p>Select Year: <select id ="yrDataset" onchange="optionChanged(this.value)"></select></p>
       </div>
-    </div> <!-- end of row -->
+    </div>
 
     <hr>
-    
-    <div class = "row ml-5 mr-5 pt-1 pl-2" style="background-color: bisque;">
-      <h1>Stacked and Radial Chart:</h1>
-      <p>Here is where Liz could write some stuff.  Is there pertinent stuff that would fit here, it's not at the very top of the page.
-        Unsure if this would work....Liz could just make some 'technical' mentions.  Such as oxycodone and hydrocodone fall under the natural and 
-        semi-synthetic stuff. Nothing too in-depth, this isn't a book report.  It's a data analysis course. The about me page could handle more of
-        the epidemic itself, if our group wants that in our project verbiage.</p>
-      <p>Here's a quote from the shadac.org website, Liz might find small snippets useful: 'This set of two-page infographics uses estimates from SHADAC’s 
-        State Health Compare online data tool to explore the evolving opioid overdose epidemic across all 50 states and the District of Columbia, 
-        examining state variation in both the prevalence of opioid deaths and the types of opioids associated with these deaths. Additionally, 
-        due to growing concern and evidence that the opioid crisis may be expanding to other non-opioid illicit drugs, we have included data on 
-        drug overdose deaths from two types of drugs that are commonly involved in opioid overdoses: cocaine and psychostimulants, 
-        such as methamphetamine. The infographics highlight key findings for trends in drug overdose deaths from 2000-2017, 
-        show how each state's overdose rates compare to the national average, and provide a high-level comparison of all 50 states' overdose 
-        death rates broken down by each of the five drug types.'</p>
-      <ul>
-        <li> a bullet list item</li>
-        <li>another bullet list item</li>
-      </ul>
-    </div>
-
-    <div class = "row ml-5 mr-5" style="background-color: bisque;">
-      <div class = "col-md-5 p-2">
+     
+    <!-- State selector for Stacked and Radial charts -->
+    <div class = "row">
+      <div class = "col-md-4" style = "background-color: rgb(90, 140, 235); color: lightgreen;">
         <p>To explore the stacked area and radial charts, select a state.</p>
-        <h6>Select State: <select id ="selDataset"></select></h6>
+        <p>Select State: <select id ="selDataset"></select></p>
       </div>
     </div>
 
-    <div class ="row mt-1 mb-5 pt-3 pb-5">
-      <div class = "col-md-6">
-        <h4 class = "text-center" id = "stackedChartTitle"></h4>
+    <!-- State Name when the user chooses from the state dropdown menu -->
+    <div class="text" style = "text-align: center;">
+      <h1 id = "currentState"></h1>
+    </div>
+
+    <!-- Stacked and Radial Charts -->
+    <div class ="row mt-1 mb-2 pt-1 pb-5">
+      <!-- Stacked Area chart -->
+      <div class = "col-md-6 text-center">
+        <h4>Opioid Deaths per 100,000 People<br>
+          <h6><i>by Heroin, Natural & Semi-Synthetic Opioids, & Synthetic Opioids</i></h6>
+        </h4>
         <div id="chartdiv"></div>
       </div>
+      <!-- Radial chart -->
       <div class = "col-md-6">
-        <h4 class = "text-center" id = "radialChartTitle"></h4>
+        <h4 class = "text-center">Total Prescription Sales<br>per 100,000 People</h4>
         <div id="chartdivRadial"></div>
       </div>
     </div>
