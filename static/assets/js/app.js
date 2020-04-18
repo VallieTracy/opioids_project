@@ -1,10 +1,6 @@
-
 var salesRadialData;
-var stateSelector =  d3.select("#selDataset");
 var deathsData;
-
-
-var years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
+var stateSelector =  d3.select("#selDataset");
 
 // Creating map object
 var mymap = L.map('map')
@@ -77,13 +73,18 @@ legend.onAdd = function(mymap){
   return div;
 };
 
-
 legend.addTo(mymap);
+
+
+//layer controls for the years
+
+
+
 
 //filters for the year that the user has selected and colors the map based on deaths from all opioids.
 function yearUpdate(year){
-  let data = deathsData;
 
+    let data = deathsData;
     var allOpioids = [];
     for (var i = 0; i < data.length; i++){
       
@@ -104,11 +105,9 @@ function yearUpdate(year){
     //add color to states
     function style(feature) {
       var stateToFind = feature.properties.name;
-      //var opioidsYear = yearUpdate(deaths, year)
       stateInfo = allOpioids.filter(s=> s.State == stateToFind);
-      //console.log(stateInfo);
-  
       deathsValue = stateInfo[0].Deaths
+
   
       return {
           fillColor: choroColor(deathsValue),
@@ -132,7 +131,7 @@ function yearUpdate(year){
           color: '#666',
           dashArray: '',
           fillOpacity: 0.7
-      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + deathsValue + " Opioid deaths per 100,000 </p>");
+      })
   
       if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
           layer.bringToFront();
@@ -143,12 +142,11 @@ function yearUpdate(year){
       geojson.resetStyle(e.target);
     }
 
-  
     function onEachFeature(feature, layer) {
       layer.on({
           mouseover: highlightFeature,
           mouseout: resetHighlight,
-      });
+      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + parseFloat(deathsValue).toFixed(2) +  " Opioid deaths per 100,000 </p>");
     }
   
     geojson = L.geoJson(statesData, {
@@ -157,20 +155,17 @@ function yearUpdate(year){
     }).addTo(mymap);
   
     //end highlight on mouse over
-
 }
 // end yearUpdate Function
 
 
-
-
-
 function stackedChart(curState) {
+  
   let filterData = deathsData;
 
   filterData= filterData.filter(d => d.State === curState);
   console.log("filterDataLiz:", filterData);
-  var yearList = filterData.map(d => d.Year); //DEBUG used to be sales.map
+  var yearList = filterData.map(d => d.Year); 
   yearList.sort();   
   var yearDictionary = {}; 
   yearList.forEach((year) => {
@@ -184,9 +179,7 @@ function stackedChart(curState) {
       yearDictionary[year] = 1; 
     }
   }); 
-  // Show the format of the yearDictionary
-  // console.log("yearDictionary"); 
-  // console.log(yearDictionary); 
+
   var deathData = [];
   const yearKeys = Object.keys(yearDictionary);     
   // For each year in the list of years ...
@@ -196,35 +189,19 @@ function stackedChart(curState) {
     var heroinData = filterData.filter(d => d["Drug Type"] === "Heroin" && d["Year"] == yearKey);
     var heroin =heroinData[0]["Deaths per 100,000"];
     console.log("heroinData", heroinData)
-    
-
-    //Liz code for nat and semi deaths
-
-
-    //console.log(deaths);
+ 
     // ... filter out the Oxycodone values and sum them up for each state
     var natSemiData = filterData.filter(d => d["Drug Type"] === "Natural and semi-synthetic opioids" && d["Year"] == yearKey);
     var natSemi = natSemiData[0]["Deaths per 100,000"];
-    //console.log(natSemiData);
-   
-    
 
-
-    //console.log(deaths);
     // ... filter out the Oxycodone values and sum them up for each state
     var syntheticData = filterData.filter(d => d["Drug Type"] === "Synthetic opioids" && d["Year"] == yearKey);
     var synthetic = syntheticData[0]["Deaths per 100,000"];
-
-    
-    
-    
-
-    //console.log(heroinSum)
-    // console.log(`year: ${yearKey}, oxySum: ${oxySum}`); 
-    // console.log(`year: ${yearKey}, hydroSum: ${hydroSum}`); 
+ 
     // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
     var deathDict = {}; 
     deathDict["Year"] = yearKey;
+
     deathDict["Heroin"] = parseFloat(heroin).toFixed(2); 
     deathDict["NatSemi"] = parseFloat(natSemi).toFixed(2);
     deathDict["Synthetic"]= parseFloat(synthetic).toFixed(2);
@@ -234,28 +211,12 @@ function stackedChart(curState) {
     // Liz code trying to add deaths from opioids
     //deathDict["NatSemi"] = natSemiSum;
 
+
     // Finally, add this new dictionary to the array
     deathData.push(deathDict); 
   }
-  //console.log("DeathData"); 
-   
-
-  //State Stuff 
-
   
-
-  //Liz Graph
-
-  //creating a function for my graph to be filtererd by state
-
-  
-
-
-
-
-
-  //
-
+  // Building the stacked chart
   var chart = am4core.create("chartdiv", am4charts.XYChart);
   chart.data = deathData; 
 
@@ -275,7 +236,7 @@ function stackedChart(curState) {
   series.dataFields.dateX = "Year";
   series.name = "Heroin";
   series.dataFields.valueY = "Heroin";
-  //series.tooltipHTML =
+
   series.tooltipText = "[#000]{valueY.value}[/]";
   series.tooltip.background.fill = am4core.color("#FFF");
   series.tooltip.getStrokeFromObject = true;
@@ -290,7 +251,6 @@ function stackedChart(curState) {
   series2.name = "NatSemi";
   series2.dataFields.dateX = "Year";
   series2.dataFields.valueY = "NatSemi";
-  //series2.tooltipHTML = "<img src='https://www.amcharts.com/lib/3/images/motorcycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>{valueY.value}</b></span>";
   series2.tooltipText = "[#000]{valueY.value}[/]";
   series2.tooltip.background.fill = am4core.color("#FFF");
   series2.tooltip.getFillFromObject = false;
@@ -306,7 +266,6 @@ function stackedChart(curState) {
   series3.name = "Synthetic";
   series3.dataFields.dateX = "Year";
   series3.dataFields.valueY = "Synthetic";
-  //series3.tooltipHTML = "<img src='https://www.amcharts.com/lib/3/images/bicycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>{valueY.value}</b></span>";
   series3.tooltipText = "[#000]{valueY.value}[/]";
   series3.tooltip.background.fill = am4core.color("#FFF");
   series3.tooltip.getFillFromObject = false;
@@ -319,89 +278,63 @@ function stackedChart(curState) {
   series3.strokeWidth = 2;
   chart.cursor = new am4charts.XYCursor();
   chart.cursor.xAxis = dateAxis;
-  chart.scrollbarX = new am4core.Scrollbar();
-  
+    
   // Add a legend
   chart.legend = new am4charts.Legend();
   chart.legend.position = "bottom";
-  // axis ranges
-  var range = dateAxis.axisRanges.create();
-  range.date = new Date(2001, 0, 1);
-  range.endDate = new Date(2003, 0, 1);
-  range.axisFill.fill = chart.colors.getIndex(7);
-  range.axisFill.fillOpacity = 0.2;
-  //range.label.text = "Fines for speeding increased";
-  range.label.inside = true;
-  range.label.rotation = 90;
-  range.label.horizontalCenter = "right";
-  range.label.verticalCenter = "bottom";
-  var range2 = dateAxis.axisRanges.create();
-  range2.date = new Date(2007, 0, 1);
-  range2.grid.stroke = chart.colors.getIndex(7);
-  range2.grid.strokeOpacity = 0.6;
-  range2.grid.strokeDasharray = "5,2";
-  //range2.label.text = "Motorcycle fee introduced";
-  range2.label.inside = true;
-  range2.label.rotation = 90;
-  range2.label.horizontalCenter = "right";
-  range2.label.verticalCenter = "bottom";
-
 }// end of stacked chart function
 
+// Function to build Radial chart
+function radialChart(curState) {  
+  // NOTE: please keep the below two lines of code IN. 
+  // var titleStr = `${curState} Prescription Sales`;
+  // var chartTitle = d3.select("#radialChartTitle").html(titleStr +  "\<br\>Per 100,000 People");
 
-
-
-
-
-
-
-function radialChart(curState) {   
-  var titleStr = `${curState} Prescription Sales`;
-  var chartTitle = d3.select("#radialChartTitle").html(titleStr +  "\<br\>Per 100,000 People");
+  var currentState = `${curState}:`;
+  var stateTitle = d3.select("#currentState").text(currentState);
 
   let filterData = salesRadialData; 
   
   filterData = filterData.filter(d => d.State === curState);
-  //console.log("filterData:", filterData);
 
   var yearSList = filterData.map(s => s.Year);
     
-    yearSList.sort();   
-    var yearSDictionary = {}; 
-    console.log("yearSDictionary:", yearSDictionary);
-    yearSList.forEach((year) => {
-      if (year in yearSDictionary)
-      {
-        yearSDictionary[year]++; 
-      }
-      else
-      {
-        yearSDictionary[year] = 1; 
-      }
-    }); 
+  yearSList.sort();   
+  var yearSDictionary = {}; 
     
-    var newSData = [];
-    
-    const yearSKeys = Object.keys(yearSDictionary);  
-      
-    // For each year in the list of years ...
-    for (const yearSKey of yearSKeys) {
-      // Filter out the oxycodone sales
-      var oxyData = filterData.filter(d => d["Oxycodone / Hydrocodone"] === "Oxycodone" && d["Year"] == yearSKey);
-      var oxy = oxyData[0]["Prescriptions per 100,000"];
-            
-      // Filter out the Hydrocodone sales
-      var hydroData = filterData.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearSKey);
-      var hydro = hydroData[0]["Prescriptions per 100,000"]; 
-             
-      // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
-      var newSDict = {}; 
-      newSDict["Year"] = yearSKey;
-      newSDict["Oxy"] = oxy;
-      newSDict["Hydro"] = hydro; 
-      // Finally, add this new dictionary to the array
-      newSData.push(newSDict); 
+  yearSList.forEach((year) => {
+    if (year in yearSDictionary)
+    {
+      yearSDictionary[year]++; 
     }
+    else
+    {
+      yearSDictionary[year] = 1; 
+    }
+  }); 
+    
+  var newSData = [];
+  
+  const yearSKeys = Object.keys(yearSDictionary);  
+    
+  // For each year in the list of years ...
+  for (const yearSKey of yearSKeys) {
+    // Filter out the oxycodone sales
+    var oxyData = filterData.filter(d => d["Oxycodone / Hydrocodone"] === "Oxycodone" && d["Year"] == yearSKey);
+    var oxy = oxyData[0]["Prescriptions per 100,000"];
+          
+    // Filter out the Hydrocodone sales
+    var hydroData = filterData.filter(d => d["Oxycodone / Hydrocodone"] === "Hydrocodone" && d["Year"] == yearSKey);
+    var hydro = hydroData[0]["Prescriptions per 100,000"]; 
+            
+    // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
+    var newSDict = {}; 
+    newSDict["Year"] = yearSKey;
+    newSDict["Oxy"] = parseFloat(oxy).toFixed(2);
+    newSDict["Hydro"] = parseFloat(hydro).toFixed(2); 
+    // Finally, add this new dictionary to the array
+    newSData.push(newSDict); 
+  }
     
     // Vallie's radial chart
     //Chart code 
@@ -449,7 +382,9 @@ function radialChart(curState) {
       
       chart.legend = new am4charts.Legend();
       chart.legend.position = "bottom";
+      
       }); // end am4core.ready()
+
 } // end of radialChart function
 
 
@@ -457,10 +392,7 @@ function stateChange() {
   am4core.disposeAllCharts();
   let curState = this.value;
   radialChart(curState);
-
   stackedChart(curState);
-
-
 }
 
 stateSelector.on("change", stateChange);
@@ -495,6 +427,8 @@ function initDashboard(){
     });
     var stateSelect = stateName[0];
 
+    var years = deaths.map(y => y.Year);
+    years = years.filter((x,i,a) => a.indexOf(x)==i);
     var yearSelector = d3.select("#yrDataset");
     years.forEach((yearSelect)=>{
       yearSelector.append("option")
@@ -505,11 +439,8 @@ function initDashboard(){
     var yearSelect = years[0];
 
     yearUpdate(yearSelect);
-    
-  });
 
-  //call functions here to draw the initial radial and stacked area graphs for the landing page.
-  
+  });
 
 }
 
