@@ -1,73 +1,77 @@
 /* NAVBAR */
 .navbar {
-    max-height: 57px; 
+    max-height: 44px; 
   }
   
-  /* Styling for Navbar Latitude button */
-  .navigation .navbar-brand {
-    margin-left: 30px; 
-    padding: 8px;
-    background-color: #0BADA6;
-    }
-  
-  /* Background color of Navbar & fonts */
-  .navbar {
-    background-color: white; 
-    font-size: 15px; 
+/* Styling for Navbar Opioids button */
+.navigation .navbar-brand {
+  margin-left: 30px; 
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border-radius: 4px;
+  background-color: white;
+  color: rgb(22, 18, 82);
   }
   
-  /* Items in dropdown menu */
-  .dropdown-item {
-    color: rgb(8, 40, 109) !important; 
-  }
-  
-  .dropdown .dropdown-menu .dropdown-item:active, .dropdown .dropdown-menu .dropdown-item:hover {
-    background-color:rgb(214, 205, 205) !important; 
-  }
-  
-  /* User-hover over right side Navbar links */
-  .nav-link:hover {
-    background-color:rgb(243, 242, 242) !important;
-  }
-
-.box {
-    background-color: aquamarine;
-    padding: 20px;
-    margin-top: 50px;
-    }
-
-
-/* FOOTER */
-.footer {
-    background-color: #5a8686; /*#666666*/
-    border-top-style: solid; 
-    border-top-width: 4px; 
-    border-top-color: black; /*#0BADA6*/
-    color: white; 
-    min-height: 55px; 
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px; 
-    text-align: center; 
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding-top: 15px; 
-    }
-/* Main CSS */
-body{
-    padding: 10px
+/* Background color of Navbar & fonts */
+.navbar {
+  background-color: rgb(22, 18, 82); 
+  font-size: 15px; 
 }
-/* .container{
-    margin-left: 0px;
-    margin-right: 0px;
-} */
+  
+/* Items in dropdown menu */
+.dropdown-item {
+  color: rgb(8, 40, 109) !important; 
+}
+
+/* Data link */
+.navbar-nav .nav-item .nav-link-data {
+  background-color: white;
+  border-radius: 4px;
+  margin-right: 12px;
+  padding-right: 15px;
+  padding-left: 15px;
+  color: rgb(22, 18, 82);
+}
+
+/* 'About the project' link */
+.navbar-nav .nav-item .nav-link-about {
+  background-color: white;
+  border-radius: 4px;
+  color: rgb(22, 18, 82);
+}
+  
+.dropdown .dropdown-menu .dropdown-item:active, .dropdown .dropdown-menu .dropdown-item:hover {
+  background-color:rgb(214, 205, 205) !important; 
+}
+  
+/* Hover over 'OPIOIDS' button on the left */
+.navbar-brand:hover {
+  background-color: rgb(0, 255, 242);   
+}
+
+/* User-hover over right side Navbar links */
+.nav-link:hover {
+  background-color:rgb(0, 255, 242) !important;
+}
+
+
+
+    /* Main CSS */
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 /* End Main CSS */
 
 
 /* Chart & Graph CSS */
 #map{
-    height: 400px;
+    height: 500px;
 }
 
 #chartdivRadial {
@@ -110,3 +114,21 @@ p{
     width: 100px;
 }
 /* End PopUp CSS */
+
+/* FOOTER */
+.footer {
+  background-color: rgb(22, 18, 82); 
+  border-top-style: solid; 
+  border-top-width: 2px; 
+  border-top-color: black; /*#0BADA6*/
+  color: white; 
+  min-height: 40px; 
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-size: 15px; 
+  text-align: center; 
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding-top: 7px; 
+  }
