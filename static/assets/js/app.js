@@ -18,8 +18,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(mymap);
 
 
-var deathsUrl = "/deathJson";
-var salesUrl = "/prescriptionJson";
+var deathsUrl = "/api/v1.0/deathTest";
+var salesUrl = "/api/v1.0/prescriptionTest";
 
 // coloring for choropleth.
 function choroColor(d){
