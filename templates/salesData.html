@@ -3,34 +3,33 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="static/assets/css/style.css">
+  
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="static/assets/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prescription Sales</title>
 </head>
 
-<body style="background-color: burlywood;">
+<body>
 
     <!-- Table Section -->
     <div class="container">
       <!-- **Left off box class so it's black table on gray background (no white) -->
       <!-- NOTE: The above might apply to the style.css, which I haven't dinked around with yet except for the footer -->
-        <div class="box border border-dark">
+        <div>
         <h1 class="title">Prescription Opioid Sales Raw Data</h1>
         <hr>
-        <h3>This is our raw data that we used to visualize prescription opioid sales for all 50 states, spanning 20 years. 
-            In cleaning our data for our JSON, we removed all 'N/A' values and...
-        </h3>
+        <h4>This is the raw data that we used to visualize prescription opioid sales for all 50 states spanning 19 years from 2000-2018.</h4>
         <p>Feel free to utilize the json for your own purposes.  Give attribution to Liz Jones, Melissa Keller, & Vallie Tracy.
-            You can find the cleaned data in JSON format <a href="http://127.0.0.1:5000/api/v1.0/prescriptionTest">here.</a>
+            You can find the data in JSON format <a href="http://127.0.0.1:5000/prescriptionJson">here.</a>
         </p>
         </div>
         <br>
   
         <!-- the table for opioidPrescriptionSales.csv -->
-        <table border="1" class="table table-borderless" style="background-color: white;">
+        <table class="dataframe table table-striped table-dark">
             <thead>
               <tr style="text-align: right;">
                 <th></th>
@@ -21366,12 +21365,6 @@
             </tbody>
           </table>
 
-
-
-        <!-- Footer Section -->
-        <footer>
-            <div class="footer">Copyright &copy; Liz Jones, Melissa Keller, & Vallie Tracy 2020</div>
-        </footer>
     
     
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

@@ -18,8 +18,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(mymap);
 
 
-var deathsUrl = "/api/v1.0/deathTest";
-var salesUrl = "/api/v1.0/prescriptionTest";
+var deathsUrl = "/deathJson";
+var salesUrl = "/prescriptionJson";
 
 // coloring for choropleth.
 function choroColor(d){
@@ -146,7 +146,8 @@ function yearUpdate(year){
       layer.on({
           mouseover: highlightFeature,
           mouseout: resetHighlight,
-      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class =\"popup\" >" + parseFloat(deathsValue).toFixed(2) +  " Opioid deaths per 100,000 </p>");
+      }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class=\"numPopup\">" + parseFloat(deathsValue).toFixed(2) +  
+      "</p> \n <p class=\"unitPopup\"> (Opioid deaths per 100,000)</p>");
     }
   
     geojson = L.geoJson(statesData, {
@@ -166,7 +167,7 @@ function stackedChart(curState) {
   let filterData = deathsData;
 
   filterData= filterData.filter(d => d.State === curState);
-  console.log("filterDataLiz:", filterData);
+  //console.log("filterDataLiz:", filterData);
   var yearList = filterData.map(d => d.Year); //DEBUG used to be sales.map
   yearList.sort();   
   var yearDictionary = {}; 
@@ -192,7 +193,7 @@ function stackedChart(curState) {
     // ... filter out the Oxycodone values and sum them up for each state
     var heroinData = filterData.filter(d => d["Drug Type"] === "Heroin" && d["Year"] == yearKey);
     var heroin =heroinData[0]["Deaths per 100,000"];
-    console.log("heroinData", heroinData)
+    //console.log("heroinData", heroinData)
     
 
     //Liz code for nat and semi deaths
