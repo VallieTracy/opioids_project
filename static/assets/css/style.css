@@ -128,10 +128,12 @@ p{
 tbody{
   background-color: #476997;
   border-color: #08306b;
+
 }
 
 thead{
   background-color: #476997;
+
 }
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
   background-color: #08306b;
