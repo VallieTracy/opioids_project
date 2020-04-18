@@ -225,9 +225,10 @@ function stackedChart(curState) {
     // Build a new dictionary containing the year, Oxycodone prescriptions, and Hydrocodone prescriptions
     var deathDict = {}; 
     deathDict["Year"] = yearKey;
-    deathDict["Heroin"] = heroin; 
-    deathDict["NatSemi"] = natSemi;
-    deathDict["Synthetic"]= synthetic;
+    deathDict["Heroin"] = parseFloat(heroin).toFixed(2); 
+    deathDict["NatSemi"] = parseFloat(natSemi).toFixed(2);
+    deathDict["Synthetic"]= parseFloat(synthetic).toFixed(2);
+    
     
 
     // Liz code trying to add deaths from opioids
@@ -274,7 +275,7 @@ function stackedChart(curState) {
   series.dataFields.dateX = "Year";
   series.name = "Heroin";
   series.dataFields.valueY = "Heroin";
-  //series.tooltipHTML = "<img src='C:\Users\lizba\Desktop";
+  //series.tooltipHTML =
   series.tooltipText = "[#000]{valueY.value}[/]";
   series.tooltip.background.fill = am4core.color("#FFF");
   series.tooltip.getStrokeFromObject = true;
