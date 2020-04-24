@@ -1,6 +1,5 @@
 .vscode
 debug
-config.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
