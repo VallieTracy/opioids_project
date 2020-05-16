@@ -141,18 +141,21 @@ function yearUpdate(year){
     function resetHighlight(e) {
       geojson.resetStyle(e.target);
     }
-
+ 
     function onEachFeature(feature, layer) {
       layer.on({
+          
           mouseover: highlightFeature,
           mouseout: resetHighlight,
+          click: stateChange
+
       }).bindPopup("<h6>"+ stateInfo[0].State + "</h6> <hr> <p class=\"numPopup\">" + parseFloat(deathsValue).toFixed(2) +  
       "</p> \n <p class=\"unitPopup\"> (Opioid deaths per 100,000)</p>");
     }
   
     geojson = L.geoJson(statesData, {
       style: style,
-      onEachFeature: onEachFeature
+      onEachFeature: onEachFeature,
     }).addTo(mymap);
   
     //end highlight on mouse over
@@ -165,7 +168,7 @@ function stackedChart(curState) {
   let filterData = deathsData;
 
   filterData= filterData.filter(d => d.State === curState);
-  console.log("filterDataLiz:", filterData);
+  //console.log("filterDataLiz:", filterData);
   var yearList = filterData.map(d => d.Year); 
   yearList.sort();   
   var yearDictionary = {}; 
@@ -189,7 +192,7 @@ function stackedChart(curState) {
     // ... filter out the Oxycodone values and sum them up for each state
     var heroinData = filterData.filter(d => d["Drug Type"] === "Heroin" && d["Year"] == yearKey);
     var heroin =heroinData[0]["Deaths per 100,000"];
-    console.log("heroinData", heroinData)
+    //console.log("heroinData", heroinData)
  
     // ... filter out the Oxycodone values and sum them up for each state
     var natSemiData = filterData.filter(d => d["Drug Type"] === "Natural and semi-synthetic opioids" && d["Year"] == yearKey);
@@ -391,9 +394,10 @@ function radialChart(curState) {
 
 function stateChange() {
   am4core.disposeAllCharts();
-  let curState = this.value;
-  radialChart(curState);
-  stackedChart(curState);
+  let newState = this.feature.properties.name;
+
+  radialChart(newState);
+  stackedChart(newState);
 }
 
 stateSelector.on("change", stateChange);
@@ -401,21 +405,14 @@ stateSelector.on("change", stateChange);
 
 //function for when the user selects a state
 function optionChanged(newYear){
-  //functions for drawing graphs here
+
   yearUpdate(newYear);
 }
 
 //function for initial landing page
 function initDashboard(){
-  var stateSelector = d3.select("#selDataset");
 
   d3.json(salesUrl).then(function(sales){
-    salesRadialData = sales;
-    radialChart("Alabama");
-  });  
-  d3.json(deathsUrl).then((deaths)=>{
-    deathsData = deaths;
-    stackedChart("Alabama");
     var stateName = [];
     for (var a = 0; a<statesData.features.length; a++){
       stateName.push(statesData.features[a].properties.name);
@@ -427,22 +424,28 @@ function initDashboard(){
         .property("value", stateSelect)
     });
     var stateSelect = stateName[0];
+    salesRadialData = sales;
+    radialChart(stateSelect);
 
-    var years = deaths.map(y => y.Year);
-    years = years.filter((x,i,a) => a.indexOf(x)==i);
-    var yearSelector = d3.select("#yrDataset");
-    years.forEach((yearSelect)=>{
-      yearSelector.append("option")
-      .text(yearSelect)
-      .property("value", yearSelect)
-    });
+    d3.json(deathsUrl).then((deaths)=>{
+      deathsData = deaths;
+      stackedChart(stateSelect);
+
+      var years = deaths.map(y => y.Year);
+      years = years.filter((x,i,a) => a.indexOf(x)==i);
+      var yearSelector = d3.select("#yrDataset");
+      years.forEach((yearSelect)=>{
+        yearSelector.append("option")
+        .text(yearSelect)
+        .property("value", yearSelect)
+      });
 
     var yearSelect = years[0];
 
     yearUpdate(yearSelect);
 
-  });
-
+    });
+  });  
 }
 
 // call initial landing page function to get landing page to display

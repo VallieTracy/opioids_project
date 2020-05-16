@@ -81,23 +81,16 @@
         <h5>Per 100,000 People</h5>
         <h6><i>Looking at all opioids</i></h6>
         <br>
-        <p>To explore the map, select a year.</p>
+        <p>To explore the map, select a year and click on a state.  Clicking on a state will also update the graphs below.</p>
         <p>Select Year: <select id ="yrDataset" onchange="optionChanged(this.value)"></select></p>
       </div>
     </div>
 
     <hr>
-     
-    <!-- State selector for Stacked and Radial charts -->
-    <div class = "row">
-      <div class = "col-md-4" style = "background-color: rgb(90, 140, 235); color: lightgreen;">
-        <p>To explore the stacked area and radial charts, select a state.</p>
-        <p>Select State: <select id ="selDataset"></select></p>
-      </div>
-    </div>
 
-    <!-- State Name when the user chooses from the state dropdown menu -->
-    <div class="text" style = "text-align: center;">
+
+    <!-- State Name when the user chooses from the state from the map -->
+    <div class="text" style = "text-align: center; background-color: rgb(22, 18, 82); color: lightgreen;">
       <h1 id = "currentState"></h1>
     </div>
 
